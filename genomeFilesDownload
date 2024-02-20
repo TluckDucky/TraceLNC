@@ -7,7 +7,7 @@
 # Homepage do GENCODE > FTP site > latest_release/
 # Arquivos: GRCh38.primary_assembly.genome.fa.gz, gencode.v45.primary_assembly.annotation.gtf.gz, gencode.v45.transcripts.fa.gz, gencode.v45.pc_transcripts.fa.gz, gencode.v45.long_noncoding_RNAs.gtf.gz, gencode.v45.lncRNA_transcripts.fa.gz), de acordo com a necessidade.
 
-#1 Criar nova sessão tmux:
+#1 Create a tmux session:
 
 tmux new -s gencodeDownload
 
