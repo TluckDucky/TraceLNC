@@ -1,0 +1,43 @@
+======================================================
+### STAR mapping using the reference transcriptome ###
+======================================================
+
+#!/bin/bash
+
+## 1. Create star directories and subdirectories (indexes,1st,2nd), for each cell type (ls selects each PRJNA directory) ##
+for i in `ls`; do cd $i; mkdir star; cd star; mkdir {indexes,1st,2nd}; cd ../..; done
+
+## 2. Create a file where the first column correspondes to all cell types and the second, to each respective PRJNA project ##
+## 3. Create symbolic links to all trimmed files
+for i in `ls ~/*/PRJNA*/fastp/trimmed*`; do ln -s $i; done
+
+## 4. Check the number of samples
+ll trimmed_SRR* | grep "celType" | wc -l
+
+## 5. Check the length of each sample
+# Create a list of samples
+ls trimmed_SRR* > srrFiles.txt
+
+# 
+
+
+
+
+
+
+
+
+
+each trimmed fastq file to the STAR directory of each cell type and its respective PRJNA project directory
+
+## 2. For each RNA-Seq SRA project, generate genome indexes ##
+
+# Create a tmux session for indexes generation
+tmux new -s indexes
+
+# In the STAR indexes directory (starIndexes), create symbolic links of GRCh38.primary_assembly.genome.fa and gencode.v45.primary_assembly.annotation.gtf (latest) files ##
+
+ln -s ~/gencode/genomeFA/GRCh38.primary_assembly.genome.fa
+
+ln -s ~/gencode/genomeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
+
