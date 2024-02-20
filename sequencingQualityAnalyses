@@ -1,0 +1,41 @@
+=====================================================================
+### Sequencing quality analyses using FastQC and Fastp algorithms ###
+=====================================================================
+
+#!/bin/bash
+
+## 1. FastQC of raw reads ##
+
+# In the FastQC output directory (fastqc), build symbolic links for each .fastq file, stored in the rawData directory 
+for i in `ls ~/rawData/SRR*`; do ln -s $i; done
+
+# Code a script to execute FastQC (in SRAProjectID, change to PRJNA ID)
+for i in `ls SRR[0-9]*`; do echo "fastqc $i -t 32 -o ."; done > SRAProjectID_fastqc.sh
+
+# Execute the above code in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
+parallel -j n < SRAProjectID_fastqc.sh >& SRAProjectID_fastqc.log &
+
+## 2. Fastp of raw reads ##
+
+# In the Fastp output directory (fastp), build symbolic links for each .fastq file, stored in the rawData directory
+for i in `ls rawData/SRR*fastq`; do ln -s $i; done
+
+# Create a txt file bearing the SRR reference of each RNA-Seq sample to use in the loop below (in SRAProjectID, change to PRJNA ID)
+ls | grep -o "SRR[0-9]*" | uniq > SRAProjectID.txt
+
+# Code a script to execute Fastp (in SRAProjectID, change to PRJNA ID)
+for i in `cat SRAProjectID.txt`; do echo "fastp -w 16 -h ${i}_fastp.html -j ${i}_fastp.json -i ${i}_1.fastq -I ${i}_2.fastq -o trimmed_${i}_1.fastq -O trimmed_${i}_2.fastq >& ${i}_fastp.log"; done > SRAProjectID_fastp.sh
+
+# Execute the above code in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
+parallel -j n < SRAProjectID_fastp.sh >& SRAProjectID_fastp.log &
+
+## 3. FastQC of trimmed reads ##
+
+# In the FastQC output directory (fastqc), build symbolic links for each trimmed.fastq file, stored in the fastp directory 
+for i in `ls ~/fastp/trimmed*fastq`; do ln -s $i; done
+
+# Code a script to execute FastQC (in SRAProjectID, change to PRJNA ID)
+for i in `ls trimmed*fastq`; do echo "fastqc $i -t 32 -o ."; done > SRAProjectID_trimmedFastqc.sh
+
+# Execute the above code in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of trimmed fastq files)
+parallel -j n < SRAProjectID_fastqc.sh >& SRAProjectID_fastqc.log &
