@@ -12,5 +12,9 @@ tmux new -s gencodeDownload
 
 wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/GRCh38.primary_assembly.genome.fa.gz
 
+wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/latest_release/gencode.v45.primary_assembly.annotation.gtf.gz
+
 ## 2. Decompress downloaded files in each respective directory ##
 gunzip GRCh38.primary_assembly.genome.fa.gz &
+
+gunzip gencode.v45.primary_assembly.annotation.gtf.gz
