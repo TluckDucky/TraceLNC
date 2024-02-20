@@ -1,9 +1,8 @@
-========================================================
-### Baixar os arquivos brutos de RNA-Seq do SRA-NCBI ###
-========================================================
-# Script para download das amostras de RNA-Seq a ser executado em loop
+==================================
+### Raw RNA-Seq reads download ###
+==================================
 
 #!/bin/bash
-#1 No diretório rawData, criar uma lista.txt contendo os numeros de acesso das amostras do SRA NCBI | SRR.
+#1 In the rawData directory, create a txt list (SRAsamplesList.txt), containg the SRA NCBI samples accession number (SRR[0-9*):
 
 while read x; do fasterq-dump ${x} -e 30 >& ${x}.log < SRAsamplesList.txt &
