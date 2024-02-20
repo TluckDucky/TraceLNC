@@ -4,5 +4,4 @@
 
 #!/bin/bash
 #1 In the rawData directory, create a txt list (SRAsamplesList.txt), containg the SRA NCBI samples accession number (SRR[0-9*):
-
 while read x; do fasterq-dump ${x} -e 30 >& ${x}.log < SRAsamplesList.txt &
