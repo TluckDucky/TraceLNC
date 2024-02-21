@@ -32,7 +32,8 @@ samplesList=PRJNAProjectFiles.txt
 tmux new -s star
 
 ## 4. In the ~/cellType/PRJNAProject/star/indexes directory of each RNA-Seq SRA project, run the below function ##
-# Remember: to execute this function you need to declare the variables overHang and project (directory indexes); samplesList (directories 1st and 2nd)
+# Hint#1: to execute this function you need to declare the variables overHang and project (directory indexes); samplesList (directories 1st and 2nd)
+# Hint#2: Change this function accordingly to your files
 STARanalyses () {
   STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile gencode.v45.primary_assembly.annotation.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
   
@@ -51,4 +52,3 @@ STARanalyses () {
     STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --limitBAMsortRAM 50000000000 --outFileNamePrefix ${x}_STAR2ndPassMapping_ --outSAMtype BAM Unsorted SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNmax 999 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --sjdbFileChrStartEnd ${x}_STAR1stPassMapping_SJ.out.tab --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR2passMapping.log
   done < $samplesList
 }
-
