@@ -18,7 +18,7 @@ overHang=(insert here the read length - use FastQC and Fastp output files to che
 project=(insert here the PRJNA accession number)
 
 # In the star 1st and 2nd directories, create symbolic links to all trimmed files to each cell type and project directory
-for i in `ls ~/cellType/PRJNAProject/fastp/trimmed*`; do ln -s $i; done
+for i in `ls ~/cellType/PRJNAProject/fastp/trimmed*.fastq`; do ln -s $i; done
 
 # Also create in the star 1st and 2nd directories a list of trimmed samples to be used in the function of indexes generation and mapping
 ls | grep -o "SRR[0-9]*" | uniq > PRJNAProjectFiles.txt
