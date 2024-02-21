@@ -25,8 +25,8 @@ This pipeline comprises steps of:
 ### Algorithms
 
 ![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=brightgreen)
-![Badge algorithm](http://img.shields.io/static/v1?label=FastQC&message=v0.11.9&color=brightgreen)
-![Badge algorithm](http://img.shields.io/static/v1?label=fastp&message=v0.20.0&color=brightgreen)
+![Badge algorithm](http://img.shields.io/static/v1?label=FastQC&message=v0.11.9&color=yellow)
+![Badge algorithm](http://img.shields.io/static/v1?label=fastp&message=v0.20.0&color=yellow)
 ![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=007fff)
 ![Badge algorithm](http://img.shields.io/static/v1?label=samtools&message=v1.10&color=007fff)
 ![Badge algorithm](http://img.shields.io/static/v1?label=geneBody_coverage.py&message=v3.0.1&color=007fff)
