@@ -10,7 +10,7 @@ This document provides a description of a pipeline to build a new human transcri
 </p>
 
 # Summary  
-* [Introduction & Algorithms](#Introduction)
+* [Introduction & Algorithms](#Introduction_&_Algorithms)
 * [Algorithms](#Algorithms)
 * [Developer](https://github.com/TluckDucky)
 * [License](https://github.com/TluckDucky/bash/blob/main/LICENSE)
