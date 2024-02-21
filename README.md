@@ -53,6 +53,7 @@ This pipeline comprises the following steps and the respective algorithms:
 [![Badge algorithm](http://img.shields.io/static/v1?label=clusterProfiler&message=v4.8.1&color=lightgray)](https://github.com/YuLab-SMU/clusterProfiler/tree/devel/vignettes)<br/><br/>
 
 ### Comments and Suggestions  
+Please, submit to [thalleslopes.github@gmail.com](thalleslopes.github@gmail.com)
 
 
 
