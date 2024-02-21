@@ -13,7 +13,7 @@ This document provides a description of a pipeline to build a new human transcri
 # Summary  
 * [Introduction](#Introduction)
 * [Developer](https://github.com/TluckDucky)
-* [License](https://github.com/TluckDucky/bash/blob/main/LICENSE)
+* [License](#License)
 
 ### Introduction
 This pipeline comprises the following steps and the respective algorithms:
@@ -53,7 +53,7 @@ This pipeline comprises the following steps and the respective algorithms:
 [![Badge algorithm](http://img.shields.io/static/v1?label=clusterProfiler&message=v4.8.1&color=lightgray)](https://github.com/YuLab-SMU/clusterProfiler/tree/devel/vignettes)<br/><br/>
 
 ### License
-* [GNU General Public License v3.0]([url](https://github.com/TluckDucky/bash/blob/main/LICENSE))
+* [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
 
 ### Comments and Suggestions?
 Please, submit to [thalleslopes.github@gmail.com](thalleslopes.github@gmail.com).
