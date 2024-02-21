@@ -16,17 +16,30 @@ This document provides a description of a pipeline to build a new human transcri
 
 ### Introduction
 This pipeline comprises the following steps and the respective algorithms:
-1. RNA-Seq raw reads [download](https://github.com/TluckDucky/bash/blob/main/sraSamplesDownload) using the NCBI-SRA [fasterq-dump](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) tool;
+
+(Select the badge of the desired algorithm to check its page).
+
+1. RNA-Seq raw reads [download](https://github.com/TluckDucky/bash/blob/main/sraSamplesDownload) using the NCBI-SRA fasterq-dump tool; <br/><br/>
 [![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=yellow)](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump)
+2. Raw reads [pre-processing and sequencing quality analyses](https://github.com/TluckDucky/bash/blob/main/sequencingQualityAnalyses) using fastp and FastQC tools; <br/><br/>
+[![Badge algorithm](http://img.shields.io/static/v1?label=FastQC&message=v0.11.9&color=brightgreen)](https://github.com/s-andrews/FastQC)
+[![Badge algorithm](http://img.shields.io/static/v1?label=fastp&message=v0.20.0&color=brightgreen)](https://github.com/OpenGene/fastp)
 
 
-2. Raw reads [pre-processing and sequencing quality analyses](https://github.com/TluckDucky/bash/blob/main/sequencingQualityAnalyses) using [fastp](https://github.com/OpenGene/fastp) and [FastQC](https://github.com/s-andrews/FastQC) tools;
-3. Mapping of trimmed reads to the human reference transcriptome and mapping quality analyses;
-4. Assembly of human transcripts and new human transcriptome;
-5. Mapping of trimmed reads to the new human transcriptome assembly;
-6. Coding potential analyses and transcript annotation;
-7. Reads counting and differential expression analysis;
-8. Gene co-expression network and gene ontology analyses.
+
+
+
+3. Mapping of trimmed reads to the human reference transcriptome and mapping quality analyses; <br/><br/>
+
+4. Assembly of human transcripts and new human transcriptome; <br/><br/>
+
+5. Mapping of trimmed reads to the new human transcriptome assembly; <br/><br/>
+
+6. Coding potential analyses and transcript annotation; <br/><br/>
+
+7. Reads counting and differential expression analysis; <br/><br/>
+
+8. Gene co-expression network and gene ontology analyses <br/><br/>
 
 
 ### Algorithms
