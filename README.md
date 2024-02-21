@@ -23,7 +23,7 @@ This pipeline comprises steps of:
 
 
 ### Algorithms
-List of algorithms used in this pipeline
+List of algorithms used in this pipeline respective to each of the aforementioned pipeline steps:
 
 1. RNA-Seq raw reads download <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=yellow)
