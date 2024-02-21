@@ -12,6 +12,7 @@ This document provides a description of a pipeline to build a new human transcri
 
 # Summary  
 * [Introduction](#Introduction)
+* [Details](#Details)
 * [Developer](https://github.com/TluckDucky)
 * [License](#License)
 
@@ -51,6 +52,13 @@ This pipeline comprises the following steps and the respective algorithms:
 8. Gene co-expression network and gene ontology analyses <br/><br/>
 [![Badge algorithm](http://img.shields.io/static/v1?label=WGCNA&message=v0.10.4&color=lightgray)](https://github.com/cran/WGCNA/tree/master)
 [![Badge algorithm](http://img.shields.io/static/v1?label=clusterProfiler&message=v4.8.1&color=lightgray)](https://github.com/YuLab-SMU/clusterProfiler/tree/devel/vignettes)<br/><br/>
+
+
+### Details
+Steps 1 to 6 were run using bash programming  language. Steps 7 and 8, using R programming language.
+
+#### Step 1 - The fasterq-dump algorithm was run using the default parameters. 
+#### Step 2 - 
 
 ### License
 * [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
