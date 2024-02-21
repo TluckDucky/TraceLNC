@@ -28,7 +28,7 @@ This pipeline comprises the following steps and the respective algorithms:
 [![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=green)](https://github.com/alexdobin/STAR)
 [![Badge algorithm](http://img.shields.io/static/v1?label=samtools&message=v1.10&color=green)](https://github.com/samtools/samtools)
 [![Badge algorithm](http://img.shields.io/static/v1?label=geneBody_coverage.py&message=v3.0.1&color=green)](https://github.com/MonashBioinformaticsPlatform/RSeQC/blob/master/rseqc/modules/geneBody_coverage.py)
-[![Badge algorithm](http://img.shields.io/static/v1?label=nfer_experiment.py&message=v3.0.1&color=green)](https://github.com/MonashBioinformaticsPlatform/RSeQC/blob/master/rseqc/modules/infer_experiment.py)
+[![Badge algorithm](http://img.shields.io/static/v1?label=infer_experiment.py&message=v3.0.1&color=green)](https://github.com/MonashBioinformaticsPlatform/RSeQC/blob/master/rseqc/modules/infer_experiment.py)
 [![Badge algorithm](http://img.shields.io/static/v1?label=tin.py&message=v3.0.1&color=green)](https://github.com/MonashBioinformaticsPlatform/RSeQC/blob/master/rseqc/modules/tin.py)<br/><br/>
 4. Assembly of human transcripts and new human transcriptome; <br/><br/>
 [![Badge algorithm](http://img.shields.io/static/v1?label=Scallop&message=v0.10.4&color=007fff)](https://github.com/Kingsford-Group/scallop)
