@@ -24,7 +24,7 @@ This pipeline comprises the following steps and the respective algorithms:
 2. Raw reads [pre-processing and sequencing quality analyses](https://github.com/TluckDucky/bash/blob/main/sequencingQualityAnalyses) using fastp and FastQC tools; <br/><br/>
 [![Badge algorithm](http://img.shields.io/static/v1?label=FastQC&message=v0.11.9&color=brightgreen)](https://github.com/s-andrews/FastQC)
 [![Badge algorithm](http://img.shields.io/static/v1?label=fastp&message=v0.20.0&color=brightgreen)](https://github.com/OpenGene/fastp)<br/><br/>
-3. Mapping of trimmed reads to the human reference transcriptome and mapping quality analyses; <br/><br/>
+3. [Mapping of trimmed reads to the human reference transcriptome](https://github.com/TluckDucky/bash/blob/main/STARmapping) and mapping quality analyses; <br/><br/>
 [![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=green)](https://github.com/alexdobin/STAR)
 [![Badge algorithm](http://img.shields.io/static/v1?label=samtools&message=v1.10&color=green)](https://github.com/samtools/samtools)
 [![Badge algorithm](http://img.shields.io/static/v1?label=geneBody_coverage.py&message=v3.0.1&color=green)](https://github.com/MonashBioinformaticsPlatform/RSeQC/blob/master/rseqc/modules/geneBody_coverage.py)
