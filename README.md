@@ -12,7 +12,7 @@ This document provides a description of a pipeline to build a new human transcri
 # Summary  
 * [Introduction](#Introduction)
 * [Developer](https://github.com/TluckDucky)
-* [Licença](#licença)
+* [License](https://github.com/TluckDucky/bash/blob/main/LICENSE)
 
 ### Introduction
 This pipeline comprises steps of:
