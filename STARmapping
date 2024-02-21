@@ -38,15 +38,15 @@ STARanalyses () {
   STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile gencode.v45.primary_assembly.annotation.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
   
   pathIndexes=$(pwd)
-  cd ..; cd 1st; ln -s $pathIndexes/ &&
+  cd ../1st && ln -s $pathIndexes/ &&
   
   while read x; do 
     STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --outFileNamePrefix ${x}_STAR1stPassMapping_ --outSAMtype BAM Unsorted --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNmax 999 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR1passMapping.log
   done < $samplesList &&
 
   path1st=$(pwd)
-  cd ..; cd 2nd; for i in `ls $path/*_STAR1stPassMapping_SJ.out.tab`; do ln -s $i; done
-  ln -s $path/ &&
+  cd ../2nd && for i in $(ls $path1st/*_STAR1stPassMapping_SJ.out.tab); do ln -s $i; done
+  ln -s $path1st/ && ln -s $pathIndexes/ &&
 
   while read x; do 
     STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --limitBAMsortRAM 50000000000 --outFileNamePrefix ${x}_STAR2ndPassMapping_ --outSAMtype BAM Unsorted SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNmax 999 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --sjdbFileChrStartEnd ${x}_STAR1stPassMapping_SJ.out.tab --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR2passMapping.log
