@@ -17,7 +17,7 @@ This document provides a description of a pipeline to build a new human transcri
 ### Introduction
 This pipeline comprises the following steps and the respective algorithms:
 
-(Select the badge of the desired algorithm to check its GitHub repository).
+(Select the badge of the desired algorithm to check its GitHub repository or similar).
 
 1. RNA-Seq raw reads [download](https://github.com/TluckDucky/bash/blob/main/sraSamplesDownload) using the NCBI-SRA fasterq-dump tool; <br/><br/>
 [![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=yellow)](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) <br/><br/>
@@ -31,25 +31,25 @@ This pipeline comprises the following steps and the respective algorithms:
 [![Badge algorithm](http://img.shields.io/static/v1?label=nfer_experiment.py&message=v3.0.1&color=green)](https://github.com/MonashBioinformaticsPlatform/RSeQC/blob/master/rseqc/modules/infer_experiment.py)
 [![Badge algorithm](http://img.shields.io/static/v1?label=tin.py&message=v3.0.1&color=green)](https://github.com/MonashBioinformaticsPlatform/RSeQC/blob/master/rseqc/modules/tin.py)<br/><br/>
 4. Assembly of human transcripts and new human transcriptome; <br/><br/>
-[![Badge algorithm](http://img.shields.io/static/v1?label=Scallop&message=v0.10.4&color=007fff)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=Taco_run&message=v0.6.2&color=007fff)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=bedToGenePred&message=v0.0.4&color=007fff)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=genePredToGtf&message=v0.0.4&color=007fff)](url)<br/><br/>
+[![Badge algorithm](http://img.shields.io/static/v1?label=Scallop&message=v0.10.4&color=007fff)](https://github.com/Kingsford-Group/scallop)
+[![Badge algorithm](http://img.shields.io/static/v1?label=Taco_run&message=v0.6.2&color=007fff)](https://tacorna.github.io/)
+[![Badge algorithm](http://img.shields.io/static/v1?label=bedToGenePred&message=v0.0.4&color=007fff)](https://github.com/ENCODE-DCC/kentUtils/tree/master/src/utils/bedToGenePred)
+[![Badge algorithm](http://img.shields.io/static/v1?label=genePredToGtf&message=v0.0.4&color=007fff)](https://github.com/ENCODE-DCC/kentUtils/tree/master/src/hg/genePredToGtf)<br/><br/>
 5. Mapping of trimmed reads to the new human transcriptome assembly; <br/><br/>
-[![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=9cf)](url)<br/><br/>
+[![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=9cf)](https://github.com/alexdobin/STAR)<br/><br/>
 6. Coding potential analyses and transcript annotation; <br/><br/>
-[![Badge algorithm](http://img.shields.io/static/v1?label=bedtools&message=v2.26.0&color=red)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=FEELnc&message=v0.01&color=red)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=CPC2&message=v0.1&color=red)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=CPAT&message=v3.0.4&color=red)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=liftOver&message=v0.1&color=red)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=Gffcompare&message=v0.11.6&color=red)](url)<br/><br/>
+[![Badge algorithm](http://img.shields.io/static/v1?label=bedtools&message=v2.26.0&color=red)](https://github.com/arq5x/bedtools2)
+[![Badge algorithm](http://img.shields.io/static/v1?label=FEELnc&message=v0.01&color=red)](https://github.com/tderrien/FEELnc)
+[![Badge algorithm](http://img.shields.io/static/v1?label=CPC2&message=v0.1&color=red)](https://github.com/gao-lab/CPC2_standalone)
+[![Badge algorithm](http://img.shields.io/static/v1?label=CPAT&message=v3.0.4&color=red)](https://github.com/liguowang/cpat)
+[![Badge algorithm](http://img.shields.io/static/v1?label=liftOver&message=v0.1&color=red)](https://github.com/jeremymcrae/liftover)
+[![Badge algorithm](http://img.shields.io/static/v1?label=Gffcompare&message=v0.11.6&color=red)](https://github.com/gpertea/gffcompare)<br/><br/>
 7. Reads counting and differential expression analysis; <br/><br/>
-[![Badge algorithm](http://img.shields.io/static/v1?label=featureCounts&message=v2.14.2&color=orange)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=edgeR&message=v3.42.4&color=orange)](url)<br/><br/>
+[![Badge algorithm](http://img.shields.io/static/v1?label=featureCounts&message=v2.14.2&color=orange)](https://rnnh.github.io/bioinfo-notebook/docs/featureCounts.html)
+[![Badge algorithm](http://img.shields.io/static/v1?label=edgeR&message=v3.42.4&color=orange)](https://bioconductor.org/packages/release/bioc/html/edgeR.html)<br/><br/>
 8. Gene co-expression network and gene ontology analyses <br/><br/>
-[![Badge algorithm](http://img.shields.io/static/v1?label=WGCNA&message=v0.10.4&color=lightgray)](url)
-[![Badge algorithm](http://img.shields.io/static/v1?label=clusterProfiler&message=v4.8.1&color=lightgray)](url)<br/><br/>
+[![Badge algorithm](http://img.shields.io/static/v1?label=WGCNA&message=v0.10.4&color=lightgray)](https://github.com/cran/WGCNA/tree/master)
+[![Badge algorithm](http://img.shields.io/static/v1?label=clusterProfiler&message=v4.8.1&color=lightgray)](https://github.com/YuLab-SMU/clusterProfiler/tree/devel/vignettes)<br/><br/>
 
 
 
