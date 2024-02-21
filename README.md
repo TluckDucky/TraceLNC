@@ -55,7 +55,7 @@ This pipeline comprises the following steps and the respective algorithms:
 
 
 ### Details
-Steps 1 to 6 were run using bash programming  language. Steps 7 and 8, using R programming language.
+-> Steps 1 to 6 were run using bash programming  language. Steps 7 and 8, using R programming language.
 
 #### Step 1 - The fasterq-dump algorithm was run using the default parameters. 
 #### Step 2 - 
