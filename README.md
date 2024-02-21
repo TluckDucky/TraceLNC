@@ -1,4 +1,4 @@
-<h1 align="center"> Human Transcriptome Construction, Novel Human lncRNA Annotation and Downstream Analyses </h1>
+<h1 align="center"> Pipeline for Human Transcriptome Construction, Novel Human lncRNA Annotation and Downstream Analyses </h1>
 
 ## Description:
 This document provides a description of a pipeline to build a new human transcriptome, to annotate novel human lncRNAs and to perform further downstream analyses.
