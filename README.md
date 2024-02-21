@@ -56,7 +56,7 @@ This pipeline comprises the following steps and the respective algorithms:
 * [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
 
 ### Comments and Suggestions?
-Please, submit to [thalleslopes.github@gmail.com](thalleslopes.github@gmail.com).
+All comments and suggestions are appreciated. Please, submit them to [thalleslopes.github@gmail.com](thalleslopes.github@gmail.com).
 
 Thank you!
 
