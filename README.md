@@ -11,17 +11,19 @@ This document provides a description of a pipeline to build a new human transcri
 
 # Summary  
 * [Introduction](#Introduction)
-* [Used algorithms](#Algorithms)
+* [Algorithms](#Algorithms)
 * [Developer](https://github.com/TluckDucky)
 * [License](https://github.com/TluckDucky/bash/blob/main/LICENSE)
 
 ### Introduction
 This pipeline comprises steps of:
-1. RNA-Seq raw reads download using the NCBI-SRA [fasterq-dump](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) tool;
-2. Raw reads pre-processing and sequencing quality analyses using [Fastp](https://github.com/OpenGene/fastp) and [FastQC](https://github.com/s-andrews/FastQC) tools;
+1. RNA-Seq raw reads [download](https://github.com/TluckDucky/bash/blob/main/sraSamplesDownload) using the NCBI-SRA [fasterq-dump](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) tool;
+2. Raw reads [pre-processing and sequencing quality analyses](https://github.com/TluckDucky/bash/blob/main/sequencingQualityAnalyses) using [fastp](https://github.com/OpenGene/fastp) and [FastQC](https://github.com/s-andrews/FastQC) tools;
 3. 
 
 
 ### Algorithms
-`fasterq-dump`
+`fasterq-dump` 
 `FastQC`
+`fastp`
+
