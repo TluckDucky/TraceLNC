@@ -10,14 +10,16 @@ This document provides a description of a pipeline to build a new human transcri
 </p>
 
 # Summary  
-* [Introduction & Algorithms](#Introduction_&_Algorithms)
-* [Algorithms](#Algorithms)
+* [Introduction](#Introduction)
 * [Developer](https://github.com/TluckDucky)
 * [License](https://github.com/TluckDucky/bash/blob/main/LICENSE)
 
-### Introduction & Algorithms
-This pipeline comprises steps of:
+### Introduction
+This pipeline comprises the following steps and the respective algorithms:
 1. RNA-Seq raw reads [download](https://github.com/TluckDucky/bash/blob/main/sraSamplesDownload) using the NCBI-SRA [fasterq-dump](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) tool;
+[![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=yellow)](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump)
+
+
 2. Raw reads [pre-processing and sequencing quality analyses](https://github.com/TluckDucky/bash/blob/main/sequencingQualityAnalyses) using [fastp](https://github.com/OpenGene/fastp) and [FastQC](https://github.com/s-andrews/FastQC) tools;
 3. Mapping of trimmed reads to the human reference transcriptome and mapping quality analyses;
 4. Assembly of human transcripts and new human transcriptome;
