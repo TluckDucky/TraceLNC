@@ -5,7 +5,7 @@ This document provides a description of a pipeline to build a new human transcri
 
 <p align="center">
 <img loading="lazy" src="http://img.shields.io/static/v1?label=status&message=developing&color=blue"/>
-<img loading="lazy" src="https://img.shields.io/static/v1?label=updated&message=february|2024&color=GREEN"/>
+<img loading="lazy" src="https://img.shields.io/static/v1?label=updated&message=february2024&color=GREEN"/>
 <img loading="lazy" src="https://img.shields.io/static/v1?label=language&message=bash&color=red"/>
 </p>
 
