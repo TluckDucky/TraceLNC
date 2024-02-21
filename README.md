@@ -17,7 +17,7 @@ This document provides a description of a pipeline to build a new human transcri
 ### Introduction
 This pipeline comprises the following steps and the respective algorithms:
 
-(Select the badge of the desired algorithm to check its page).
+(Select the badge of the desired algorithm to check its GitHub repository).
 
 1. RNA-Seq raw reads [download](https://github.com/TluckDucky/bash/blob/main/sraSamplesDownload) using the NCBI-SRA fasterq-dump tool; <br/><br/>
 [![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=yellow)](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump)
@@ -25,8 +25,8 @@ This pipeline comprises the following steps and the respective algorithms:
 [![Badge algorithm](http://img.shields.io/static/v1?label=FastQC&message=v0.11.9&color=brightgreen)](https://github.com/s-andrews/FastQC)
 [![Badge algorithm](http://img.shields.io/static/v1?label=fastp&message=v0.20.0&color=brightgreen)](https://github.com/OpenGene/fastp)
 3. Mapping of trimmed reads to the human reference transcriptome and mapping quality analyses; <br/><br/>
-![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=green)
-![Badge algorithm](http://img.shields.io/static/v1?label=samtools&message=v1.10&color=green)
+[![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=green)](https://github.com/alexdobin/STAR)
+[![Badge algorithm](http://img.shields.io/static/v1?label=samtools&message=v1.10&color=green)](https://github.com/samtools/samtools)
 ![Badge algorithm](http://img.shields.io/static/v1?label=geneBody_coverage.py&message=v3.0.1&color=green)
 ![Badge algorithm](http://img.shields.io/static/v1?label=nfer_experiment.py&message=v3.0.1&color=green)
 ![Badge algorithm](http://img.shields.io/static/v1?label=tin.py&message=v3.0.1&color=green)
