@@ -24,26 +24,42 @@ This pipeline comprises steps of:
 
 ### Algorithms
 
+1. RNA-Seq raw reads download <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=brightgreen)
+
+2. Raw reads pre-processing and sequencing quality analyses <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=FastQC&message=v0.11.9&color=green)
 ![Badge algorithm](http://img.shields.io/static/v1?label=fastp&message=v0.20.0&color=green)
+
+4. Mapping of trimmed reads to the human reference transcriptome and mapping quality analyses <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=007fff)
 ![Badge algorithm](http://img.shields.io/static/v1?label=samtools&message=v1.10&color=007fff)
 ![Badge algorithm](http://img.shields.io/static/v1?label=geneBody_coverage.py&message=v3.0.1&color=007fff)
 ![Badge algorithm](http://img.shields.io/static/v1?label=nfer_experiment.py&message=v3.0.1&color=007fff)
 ![Badge algorithm](http://img.shields.io/static/v1?label=tin.py&message=v3.0.1&color=007fff)
+
+7. Assembly of human transcripts and new human transcriptome <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=Scallop&message=v0.10.4&color=9cf)
 ![Badge algorithm](http://img.shields.io/static/v1?label=Taco_run&message=v0.6.2&color=9cf)
 ![Badge algorithm](http://img.shields.io/static/v1?label=bedToGenePred&message=v0.0.4&color=9cf)
 ![Badge algorithm](http://img.shields.io/static/v1?label=genePredToGtf&message=v0.0.4&color=9cf)
+
+9. Mapping of trimmed reads to the new human transcriptome assembly <br/><br/>
+![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=007fff)
+
+11. Coding potential analyses and transcript annotation <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=bedtools&message=v2.26.0&color=red)
 ![Badge algorithm](http://img.shields.io/static/v1?label=FEELnc&message=v0.01&color=red)
 ![Badge algorithm](http://img.shields.io/static/v1?label=CPC2&message=v0.1&color=red)
 ![Badge algorithm](http://img.shields.io/static/v1?label=CPAT&message=v3.0.4&color=red)
 ![Badge algorithm](http://img.shields.io/static/v1?label=liftOver&message=v0.1&color=red)
 ![Badge algorithm](http://img.shields.io/static/v1?label=Gffcompare&message=v0.11.6&color=red)
+
+13. Reads counting and differential expression analysis <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=featureCounts&message=v2.14.2&color=orange)
 ![Badge algorithm](http://img.shields.io/static/v1?label=edgeR&message=v3.42.4&color=orange)
+
+15. Gene co-expression network and gene ontology analyses <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=WGCNA&message=v0.10.4&color=lightslategray)
 ![Badge algorithm](http://img.shields.io/static/v1?label=clusterProfiler&message=v4.8.1&color=lightslategray)
 
