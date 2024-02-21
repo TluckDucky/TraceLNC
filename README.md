@@ -26,4 +26,16 @@ This pipeline comprises steps of:
 `fasterq-dump` 
 `FastQC`
 `fastp`
-
+`STAR | v2.3.7a`
+``
+``
+``
+``
+``
+``
+``
+``
+``
+``
+``
+``
