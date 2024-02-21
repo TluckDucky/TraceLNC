@@ -11,7 +11,7 @@ This document provides a description of a pipeline to build a new human transcri
 
 # Summary  
 * [Introduction](#Introduction)
-* [Used algorithms](#UsedAlgorithms)
+* [Used algorithms](#Algorithms)
 * [Developer](https://github.com/TluckDucky)
 * [License](https://github.com/TluckDucky/bash/blob/main/LICENSE)
 
@@ -22,6 +22,6 @@ This pipeline comprises steps of:
 3. 
 
 
-### Used algorithms
+### Algorithms
 `fasterq-dump`
 `FastQC`
