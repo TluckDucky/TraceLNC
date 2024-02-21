@@ -4,40 +4,51 @@
 
 #!/bin/bash
 
-## 1. Create star directories and subdirectories (indexes,1st,2nd), for each cell type (ls selects each PRJNA directory) ##
+## 1. In each cell type and project upper directories (~/cellType/PRJNAProject/star/indexes), create star directories and subdirectories (indexes,1st,2nd) | (ls command selects each PRJNA directory) ##
 for i in `ls`; do cd $i; mkdir star; cd star; mkdir {indexes,1st,2nd}; cd ../..; done
 
-## 2. Create a file where the first column correspondes to all cell types and the second, to each respective PRJNA project ##
-## 3. Create symbolic links to all trimmed files
-for i in `ls ~/*/PRJNA*/fastp/trimmed*`; do ln -s $i; done
+## 2. Generating genome indexes with STAR ##
 
-## 4. Check the number of samples
-ll trimmed_SRR* | grep "celType" | wc -l
-
-## 5. Check the length of each sample
-# Create a list of samples
-ls trimmed_SRR* > srrFiles.txt
-
-# 
-
-
-
-
-
-
-
-
-
-each trimmed fastq file to the STAR directory of each cell type and its respective PRJNA project directory
-
-## 2. For each RNA-Seq SRA project, generate genome indexes ##
-
-# Create a tmux session for indexes generation
-tmux new -s indexes
-
-# In the STAR indexes directory (starIndexes), create symbolic links of GRCh38.primary_assembly.genome.fa and gencode.v45.primary_assembly.annotation.gtf (latest) files ##
-
-ln -s ~/gencode/genomeFA/GRCh38.primary_assembly.genome.fa
-
+# In the star indexes directory of each cell type and project upper directories (~/cellType/project/star/indexes), create symbolic links to genome fasta and annotation gtf files
+ln -s ~/gencode/genomeFA/GRCh38.primary_assembly.genome.fa 
 ln -s ~/gencode/genomeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
+
+# In the star indexes directory, create vectors containing the project accession number (project), and the length (overHang), to create log files and to be used as the --sjdbOverhangs argument
+overHang=(insert here the read length - use FastQC and Fastp output files to check read lengths after trimming)
+project=(insert here the PRJNA accession number)
+
+# In the star 1st and 2nd directories, create symbolic links to all trimmed files to each cell type and project directory
+for i in `ls ~/cellType/PRJNAProject/fastp/trimmed*`; do ln -s $i; done
+
+# Also create in the star 1st and 2nd directories a list of trimmed samples to be used in the function of indexes generation and mapping
+ls | grep -o "SRR[0-9]*" | uniq > PRJNAProjectFiles.txt
+samplesList=PRJNAProjectFiles.txt
+
+# Check the number of samples in the star 1st and 2nd directories
+ls | grep -o "SRR[0-9]*" | uniq | wc -l
+samplesList=PRJNAProjectFiles.txt
+
+## 3. Create a tmux session to run STAR indexes generation and mapping ##
+tmux new -s star
+
+## 4. In the ~/cellType/PRJNAProject/star/indexes directory of each RNA-Seq SRA project, run the below function ##
+# Remember: to execute this function you need to declare the variables overHang and project (directory indexes); samplesList (directories 1st and 2nd)
+STARanalyses () {
+  STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile gencode.v45.primary_assembly.annotation.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
+  
+  pathIndexes=$(pwd)
+  cd ..; cd 1st; ln -s $pathIndexes/ &&
+  
+  while read x; do 
+    STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --outFileNamePrefix ${x}_STAR1stPassMapping_ --outSAMtype BAM Unsorted --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNmax 999 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR1passMapping.log
+  done < $samplesList &&
+
+  path1st=$(pwd)
+  cd ..; cd 2nd; for i in `ls $path/*_STAR1stPassMapping_SJ.out.tab`; do ln -s $i; done
+  ln -s $path/ &&
+
+  while read x; do 
+    STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --limitBAMsortRAM 50000000000 --outFileNamePrefix ${x}_STAR2ndPassMapping_ --outSAMtype BAM Unsorted SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNmax 999 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --sjdbFileChrStartEnd ${x}_STAR1stPassMapping_SJ.out.tab --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR2passMapping.log
+  done < $samplesList
+}
 
