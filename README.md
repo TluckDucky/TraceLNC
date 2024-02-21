@@ -19,7 +19,7 @@ This document provides a description of a pipeline to build a new human transcri
 ### Introduction
 This pipeline comprises the following steps and the respective algorithms:
 
-(Select the badge of the desired algorithm to check its GitHub repository or similar).
+(Click over the badge of the desired algorithm to check its GitHub repository or similar).
 
 1. RNA-Seq raw reads [download](https://github.com/TluckDucky/bash/blob/main/sraSamplesDownload) using the NCBI-SRA fasterq-dump tool; <br/><br/>
 [![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=yellow)](https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump) <br/><br/>
