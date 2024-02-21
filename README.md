@@ -23,29 +23,30 @@ This pipeline comprises steps of:
 
 
 ### Algorithms
+List of algorithms used in this pipeline
 
 1. RNA-Seq raw reads download <br/><br/>
-![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=brightgreen)
+![Badge algorithm](http://img.shields.io/static/v1?label=fasterq-dump&message=v3.0.2&color=yellow)
 
 2. Raw reads pre-processing and sequencing quality analyses <br/><br/>
-![Badge algorithm](http://img.shields.io/static/v1?label=FastQC&message=v0.11.9&color=green)
-![Badge algorithm](http://img.shields.io/static/v1?label=fastp&message=v0.20.0&color=green)
+![Badge algorithm](http://img.shields.io/static/v1?label=FastQC&message=v0.11.9&color=brightgreen)
+![Badge algorithm](http://img.shields.io/static/v1?label=fastp&message=v0.20.0&color=brightgreen)
 
 4. Mapping of trimmed reads to the human reference transcriptome and mapping quality analyses <br/><br/>
-![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=007fff)
-![Badge algorithm](http://img.shields.io/static/v1?label=samtools&message=v1.10&color=007fff)
-![Badge algorithm](http://img.shields.io/static/v1?label=geneBody_coverage.py&message=v3.0.1&color=007fff)
-![Badge algorithm](http://img.shields.io/static/v1?label=nfer_experiment.py&message=v3.0.1&color=007fff)
-![Badge algorithm](http://img.shields.io/static/v1?label=tin.py&message=v3.0.1&color=007fff)
+![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=green)
+![Badge algorithm](http://img.shields.io/static/v1?label=samtools&message=v1.10&color=green)
+![Badge algorithm](http://img.shields.io/static/v1?label=geneBody_coverage.py&message=v3.0.1&color=green)
+![Badge algorithm](http://img.shields.io/static/v1?label=nfer_experiment.py&message=v3.0.1&color=green)
+![Badge algorithm](http://img.shields.io/static/v1?label=tin.py&message=v3.0.1&color=green)
 
 7. Assembly of human transcripts and new human transcriptome <br/><br/>
-![Badge algorithm](http://img.shields.io/static/v1?label=Scallop&message=v0.10.4&color=9cf)
-![Badge algorithm](http://img.shields.io/static/v1?label=Taco_run&message=v0.6.2&color=9cf)
-![Badge algorithm](http://img.shields.io/static/v1?label=bedToGenePred&message=v0.0.4&color=9cf)
-![Badge algorithm](http://img.shields.io/static/v1?label=genePredToGtf&message=v0.0.4&color=9cf)
+![Badge algorithm](http://img.shields.io/static/v1?label=Scallop&message=v0.10.4&color=007fff)
+![Badge algorithm](http://img.shields.io/static/v1?label=Taco_run&message=v0.6.2&color=007fff)
+![Badge algorithm](http://img.shields.io/static/v1?label=bedToGenePred&message=v0.0.4&color=007fff)
+![Badge algorithm](http://img.shields.io/static/v1?label=genePredToGtf&message=v0.0.4&color=007fff)
 
 9. Mapping of trimmed reads to the new human transcriptome assembly <br/><br/>
-![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=007fff)
+![Badge algorithm](http://img.shields.io/static/v1?label=STAR&message=v2.3.7a&color=9cf)
 
 11. Coding potential analyses and transcript annotation <br/><br/>
 ![Badge algorithm](http://img.shields.io/static/v1?label=bedtools&message=v2.26.0&color=red)
@@ -60,8 +61,8 @@ This pipeline comprises steps of:
 ![Badge algorithm](http://img.shields.io/static/v1?label=edgeR&message=v3.42.4&color=orange)
 
 15. Gene co-expression network and gene ontology analyses <br/><br/>
-![Badge algorithm](http://img.shields.io/static/v1?label=WGCNA&message=v0.10.4&color=lightslategray)
-![Badge algorithm](http://img.shields.io/static/v1?label=clusterProfiler&message=v4.8.1&color=lightslategray)
+![Badge algorithm](http://img.shields.io/static/v1?label=WGCNA&message=v0.10.4&color=lightgray)
+![Badge algorithm](http://img.shields.io/static/v1?label=clusterProfiler&message=v4.8.1&color=lightgray)
 
 
 
