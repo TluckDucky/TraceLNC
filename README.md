@@ -59,7 +59,7 @@ Steps 1 to 6 were run using bash programming  language. Steps 7 and 8, using R p
 
 * #### Step 1 - The fasterq-dump algorithm was run using the default parameters. 
 * #### Step 2 -
-* ### Steps 3 & 5 - After performing the second mapping, verify the percentage of uniquely mapped reads. A good percentage is around 75% or more.
+* #### Steps 3 & 5 - After performing the second mapping, verify the percentage of uniquely mapped reads. A good percentage is around 75% or more.
 
 ### License
 * [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
