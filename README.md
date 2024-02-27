@@ -65,7 +65,7 @@ If you use sharp trimming tools or approaches, you may encounter low rates of un
 
 * Steps 3 & 5 <br/>
 After performing the second mapping, verify the percentage of uniquely mapped reads (recommended to gene expression analyses). <br/>
-
+-
 Low mapping rate | < 50% - indicative of a problem with library preparations or data processing. <br/>
 Good mapping rate | 80 to 90%. <br/>
 Very good mapping rate | superior to 90%.
