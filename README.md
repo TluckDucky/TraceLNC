@@ -57,9 +57,9 @@ This pipeline comprises the following steps and the respective algorithms:
 ### Details
 Steps 1 to 6 were run using bash programming  language. Steps 7 and 8, using R programming language.
 
-* #### Step 1 - The fasterq-dump algorithm was run using the default parameters. 
-* #### Step 2 - If you use sharp trimming tools or approaches, you may encounter low rates of uniquely mapped reads (steps 3 & 5), which may reflect on downstream analysis. [Check it up.](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2)
-* #### Steps 3 & 5 - After performing the second mapping, verify the percentage of uniquely mapped reads (recommended to gene expression analyses). A good percentage is around 75% or more.
+* Step 1 - The fasterq-dump algorithm was run using the default parameters. 
+* Step 2 - If you use sharp trimming tools or approaches, you may encounter low rates of uniquely mapped reads (steps 3 & 5), which may impair downstream analysis. [Check it up.](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2)
+* Steps 3 & 5 - After performing the second mapping, verify the percentage of uniquely mapped reads (recommended to gene expression analyses). A good percentage is around 75% or more.
 
 ### License
 * [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
