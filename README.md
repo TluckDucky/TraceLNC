@@ -64,7 +64,7 @@ The fasterq-dump algorithm was run using the default parameters. <br/>
 If you use sharp trimming tools or approaches, you may encounter low rates of uniquely mapped reads (steps 3 & 5), which may impair downstream analysis. [Check it up.](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2) For that, fastp was run with default parameters. <br/>
 
 * Steps 3 & 5 <br/>
-After performing the second mapping, verify the percentage of uniquely mapped reads (recommended to gene expression analyses). <br/>
+After performing the second mapping, verify the percentage of uniquely mapped reads (recommended for gene expression analyses). <br/>
 Low mapping rate | < 50% - indicative of a problem with library preparations or data processing. <br/>
 Good mapping rate | 80 to 90%. <br/>
 Very good mapping rate | superior to 90%.
