@@ -24,7 +24,7 @@ for i in `ls rawData/SRR*fastq`; do ln -s $i; done
 ls | grep -o "SRR[0-9]*" | uniq > SRAProjectID.txt
 
 # Code a script to execute Fastp (in SRAProjectID, change to PRJNA ID)
-for i in `cat SRAProjectID.txt`; do echo "fastp -w 16 -h ${i}_fastp.html -j ${i}_fastp.json -i ${i}_1.fastq -I ${i}_2.fastq -o trimmed_${i}_1.fastq -O trimmed_${i}_2.fastq >& ${i}_fastp.log"; done > SRAProjectID_fastp.sh | wc -l SRAProjectID_fastp.sh
+for i in `cat SRAProjectID.txt`; do echo "fastp -w 16 -h ${i}_fastp.html -j ${i}_fastp.json -i ${i}_1.fastq -I ${i}_2.fastq -o trimmed_${i}_1.fastq -O trimmed_${i}_2.fastq >& ${i}_fastp.log"; done > SRAProjectID_fastp.sh; wc -l SRAProjectID_fastp.sh
 
 # Execute the above code in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
 parallel -j n < SRAProjectID_fastp.sh >& SRAProjectID_fastp.log &
