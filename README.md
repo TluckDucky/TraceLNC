@@ -66,7 +66,7 @@ If you use sharp trimming tools or approaches, you may encounter low rates of un
 * Steps 3 & 5 <br/>
 STAR indexes generation and mapping were performed using the ENCODE standard options as described in this STAR manual and as described by [Maciel, L.F. and Verjovski-Almeida, S. (2020)](doi.org/10.1007/978-1-0716-0635-3_10). <br/><br/>
 After performing the second mapping, verify the percentage of uniquely mapped reads (recommended for gene expression analyses). <br/><br/>
-[Mapping rates:](10.1002/0471250953.bi1114s51)<br/>
+[Mapping rates:](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4631051/)<br/>
 Low mapping rate | < 50% - indicative of a problem with library preparations or data processing. <br/>
 Good mapping rate | 80 to 90%. <br/>
 Very good mapping rate | superior to 90%.
