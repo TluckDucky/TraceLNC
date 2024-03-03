@@ -15,7 +15,7 @@ for i in `ls ~/PRJNAProject/trimmed*.fastq`; do ln -s $i; done
 ls | grep -o "SRR[0-9]*" | sort -u > PRJNAProjectFiles.txt
 samplesList=PRJNAProjectFiles.txt
 
-# Hint: Change the bellow function accordingly to your files
+# Create the following function on your server and modify it accordingly to your files.
 
 STARanalyses () {
   STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile gencode.v45.primary_assembly.annotation.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
