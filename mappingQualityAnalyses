@@ -6,15 +6,24 @@
 
 # 1. samtools
 
-while read x; do samtools index ${x} ${x}.bai < sortedByCoordBamFiles.txt; done
+for i in `ls *sortedByCoord.out.bam`; do echo "samtools index ${i} ${i}.bai" > samIndex.sh; done
+
+# Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
+parallel -j n < samIndex.sh >& samIndex.log &
 
 # 2. tin.py
 
-while read x; do tin.py -i $x -r gencode.v45.primary_assembly.annotation.bed >& ${x}_tinAnalysis.log" < sortedByCoordBamFiles.txt; done
+for i in `ls *sortedByCoord.out.bam`; do echo "tin.py -i $x -r gencode.v45.primary_assembly.annotation.bed >& ${x}_tinAnalysis.log" > tin.sh; done
+
+# Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
+parallel -j n < samIndex.sh >& samIndex.log &
 
 # 3 geneBody_coverage.py
 
-while read x; do geneBody_coverage.py -i $i -r gencode.v45.primary_assembly.annotation.bed -o ${i}_gbc >& ${i}_gbc.log < sortedByCoordBamFiles.txt; done
+for i in `ls *sortedByCoord.out.bam`; do echo "geneBody_coverage.py -i $i -r gencode.v45.primary_assembly.annotation.bed -o ${i}_gbc >& ${i}_gbc.log" > geneBody_coverage.sh; done
+
+# Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
+parallel -j n < samIndex.sh >& samIndex.log &
 
 # 4 infer_experiment.py
 
