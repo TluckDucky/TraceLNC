@@ -58,8 +58,7 @@ This pipeline comprises the following steps and the respective algorithms:
 Steps 1 to 6 were run using bash programming  language. Steps 7 and 8, using R programming language.
 
 * Step 1 <br/>
-The fasterq-dump algorithm was run using the default parameters. <br/><br/>
-To run the fastqc and fastp it is recommended to build one superdirectory for each PRJNA Project, bearing directories for each analyses and using symbolic links to needed files (PRJNAProject/rawData; PRJNAProject/fastqc; PRJNAProject/fastp; PRJNAProject/fastp/trimmedFiles).
+The fasterq-dump algorithm was run using the default parameters. <br/>
 
 * Step 2 <br/>
 If you use sharp trimming tools or approaches, you may encounter low rates of uniquely mapped reads (steps 3 & 5), which may impair downstream analysis. [Check it up.](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2) For that, fastp was run with default parameters. <br/>
