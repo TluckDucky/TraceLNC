@@ -4,23 +4,23 @@
 
 #!/bin/bash
 
-# 1. samtools
+## 1. samtools ##
 for i in `ls *sortedByCoord.out.bam`; do echo "samtools index ${i} ${i}.bai" > samIndex.sh; done
 
 # Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
 parallel -j n < samIndex.sh >& samIndex.log &
 
-# 2. tin.py
+## 2. tin.py ##
 for i in `ls *sortedByCoord.out.bam`; do echo "tin.py -i $x -r gencode.v45.primary_assembly.annotation.bed >& ${x}_tinAnalysis.log" > tin.sh; done
 
 # Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
 parallel -j n < tin.sh >& tin.log &
 
-# 3 geneBody_coverage.py
+## 3 geneBody_coverage.py ##
 for i in `ls *sortedByCoord.out.bam`; do echo "geneBody_coverage.py -i $i -r gencode.v45.primary_assembly.annotation.bed -o ${i}_gbc >& ${i}_gbc.log" > geneBody_coverage.sh; done
 
 # Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
 parallel -j n < geneBody_coverage.sh >& geneBody_coverage.log &
 
-# 4 infer_experiment.py
+## 4 infer_experiment.py ##
 
