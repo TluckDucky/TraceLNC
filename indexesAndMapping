@@ -11,7 +11,6 @@ overHang=(insert here the max trimmed read length - 1)
 project=(insert here the PRJNA accession number)
 
 for i in `ls ~/PRJNAProject/trimmed*.fastq`; do ln -s $i; done
-
 ls | grep -o "SRR[0-9]*" | sort -u > PRJNAProjectFiles.txt
 samplesList=PRJNAProjectFiles.txt
 
