@@ -4,36 +4,19 @@
 
 #!/bin/bash
 
-## 1. In each cell type and project upper directories (~/cellType/PRJNAProject/star/indexes), create star directories and subdirectories (indexes,1st,2nd) | (ls command selects each PRJNA directory) ##
-for i in `ls`; do cd $i; mkdir star; cd star; mkdir {indexes,1st,2nd}; cd ../..; done
-
-## 2. Generating genome indexes with STAR ##
-
-# In the star indexes directory of each cell type and project upper directories (~/cellType/project/star/indexes), create symbolic links to genome fasta and annotation gtf files
 ln -s ~/gencode/genomeFA/GRCh38.primary_assembly.genome.fa 
 ln -s ~/gencode/genomeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
 
-# In the star indexes directory, create vectors containing the project accession number (project), and the length (overHang), to create log files and to be used as the --sjdbOverhangs argument
-overHang=(insert here the read length - use FastQC and Fastp output files to check read lengths after trimming)
+overHang=(insert here the max trimmed read length - 1)
 project=(insert here the PRJNA accession number)
 
-# In the star 1st and 2nd directories, create symbolic links to all trimmed files to each cell type and project directory
-for i in `ls ~/cellType/PRJNAProject/fastp/trimmed*.fastq`; do ln -s $i; done
+for i in `ls ~/PRJNAProject/trimmed*.fastq`; do ln -s $i; done
 
-# Also create in the star 1st and 2nd directories a list of trimmed samples to be used in the function of indexes generation and mapping
-ls | grep -o "SRR[0-9]*" | uniq > PRJNAProjectFiles.txt
+ls | grep -o "SRR[0-9]*" | sort -u > PRJNAProjectFiles.txt
 samplesList=PRJNAProjectFiles.txt
 
-# Check the number of samples in the star 1st and 2nd directories
-ls | grep -o "SRR[0-9]*" | uniq | wc -l
-samplesList=PRJNAProjectFiles.txt
+# Hint: Change the bellow function accordingly to your files
 
-## 3. Create a tmux session to run STAR indexes generation and mapping ##
-tmux new -s star
-
-## 4. In the ~/cellType/PRJNAProject/star/indexes directory of each RNA-Seq SRA project, run the below function ##
-# Hint#1: to execute this function you need to declare the variables overHang and project (directory indexes); samplesList (directories 1st and 2nd)
-# Hint#2: Change this function accordingly to your files
 STARanalyses () {
   STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile gencode.v45.primary_assembly.annotation.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
   
