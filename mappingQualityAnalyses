@@ -14,7 +14,7 @@ while read x; do tin.py -i $x -r gencode.v45.primary_assembly.annotation.bed >& 
 
 # 3 geneBody_coverage.py
 
-
+while read x; do geneBody_coverage.py -i $i -r gencode.v45.primary_assembly.annotation.bed -o ${i}_gbc >& ${i}_gbc.log < sortedByCoordBamFiles.txt; done
 
 # 4 infer_experiment.py
 
