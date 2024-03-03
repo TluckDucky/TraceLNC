@@ -58,7 +58,8 @@ This pipeline comprises the following steps and the respective algorithms:
 Steps 1 to 6 were run using bash programming  language. Steps 7 and 8, using R programming language.
 
 * Step 1 <br/>
-The fasterq-dump algorithm was run using the default parameters. <br/>
+The fasterq-dump algorithm was run using the default parameters. <br/><br/>
+To run the fastqc and fastp it is recommended to build one superdirectory for each PRJNA Project, bearing directories for each analyses and using symbolic links to needed files (PRJNAProject/rawData; PRJNAProject/fastqc; PRJNAProject/fastp; PRJNAProject/fastp/trimmedFiles).
 
 * Step 2 <br/>
 If you use sharp trimming tools or approaches, you may encounter low rates of uniquely mapped reads (steps 3 & 5), which may impair downstream analysis. [Check it up.](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2) For that, fastp was run with default parameters. <br/>
@@ -71,7 +72,7 @@ Low mapping rate | < 50% - indicative of a problem with library preparations or 
 Good mapping rate | 80 to 90%. <br/>
 Very good mapping rate | superior to 90%. <br/><br/>
 To run the RSeQC modules tin.py and geneBody_coverage.py you will need to index the sorted bam files from the 2nd mapping beforehand. To do so you may use the index command of samtools. Once you have the sorted bam files as well as the bai files (output from samtools indexing), you may run these two modules. <br/><br/>
-It is recommended to build one superdirectory for each PRJNA Project, bearing direcotories for each analyses (star/index; star/1stMapping and star/2ndMapping)
+It is recommended to build one superdirectory for each PRJNA Project, bearing directories for each analyses and using symbolic links to needed files (star/index; star/1stMapping and star/2ndMapping).
 
 ### License
 * [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
