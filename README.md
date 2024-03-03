@@ -70,7 +70,7 @@ After performing the second mapping, verify the percentage of uniquely mapped re
 Low mapping rate | < 50% - indicative of a problem with library preparations or data processing. <br/>
 Good mapping rate | 80 to 90%. <br/>
 Very good mapping rate | superior to 90%. <br/><br/>
-To run the RSeQC modules tin.py and geneBody_coverage.py you will need to index the sorted bam files from the 2nd mapping beforehand. To do so you may use the index command of samtools. Once you have de sorted bam files as well as the bai files (output from samtools indexing), you may run these two modules.
+To run the RSeQC modules tin.py and geneBody_coverage.py you will need to index the sorted bam files from the 2nd mapping beforehand. To do so you may use the index command of samtools. Once you have the sorted bam files as well as the bai files (output from samtools indexing), you may run these two modules.
 
 ### License
 * [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
