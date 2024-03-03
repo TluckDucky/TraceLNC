@@ -1,0 +1,20 @@
+================================
+### Mapping Quality Analyses ###
+================================
+
+#!/bin/bash
+
+# 1. samtools
+
+while read x; do samtools index ${x} ${x}.bai < sortedByCoordBamFiles.txt; done
+
+# 2. tin.py
+
+while read x; do tin.py -i $x -r gencode.v45.primary_assembly.annotation.bed >& ${x}_tinAnalysis.log" < sortedByCoordBamFiles.txt; done
+
+# 3 geneBody_coverage.py
+
+
+
+# 4 infer_experiment.py
+
