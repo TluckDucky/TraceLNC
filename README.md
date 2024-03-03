@@ -70,7 +70,7 @@ After performing the second mapping, verify the percentage of uniquely mapped re
 Low mapping rate | < 50% - indicative of a problem with library preparations or data processing. <br/>
 Good mapping rate | 80 to 90%. <br/>
 Very good mapping rate | superior to 90%. <br/><br/>
-To run the RSeQC modules tin.py and geneBody_coverage.py you will need to index the sorted bam files from the 2nd mapping beforehand. To do so you may use the index command of samtools. Once you have the sorted bam files as well as the bai files (output from samtools indexing), you may run these two modules. <br/><br/>
+To run the RSeQC modules tin.py and geneBody_coverage.py you will need to index the sorted bam files from the 2nd mapping beforehand. To do so you may use the index command of samtools. The bai files are not declared in the code but they must be stored in the directory for a succesfull run of these modules. <br/><br/>
 It is recommended to build one superdirectory for each PRJNA Project, bearing directories for each analyses and using symbolic links to needed files (star/index; star/1stMapping and star/2ndMapping).
 
 ### License
