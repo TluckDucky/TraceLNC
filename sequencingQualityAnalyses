@@ -11,7 +11,6 @@ for i in `ls SRR[0-9]*`; do echo "fastqc $i -t 32 -o ."; done > SRAProjectID_fas
 parallel -j n < SRAProjectID_fastqc.sh >& SRAProjectID_fastqc.log &
 
 ## 2. Fastp of raw reads ##
-
 ls | grep -o "SRR[0-9]*" | uniq > SRAProjectID.txt
 for i in `cat SRAProjectID.txt`; do echo "fastp -w 16 -h ${i}_fastp.html -j ${i}_fastp.json -i ${i}_1.fastq -I ${i}_2.fastq -o trimmed_${i}_1.fastq -O trimmed_${i}_2.fastq >& ${i}_fastp.log"; done > SRAProjectID_fastp.sh; wc -l SRAProjectID_fastp.sh
 
