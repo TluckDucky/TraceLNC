@@ -5,24 +5,21 @@
 #!/bin/bash
 
 ## 1. FastQC of raw reads ##
-
 for i in `ls SRR[0-9]*`; do echo "fastqc $i -t 32 -o ."; done > SRAProjectID_fastqc.sh
 
-# Execute the above code in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
+# Execute the code below in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
 parallel -j n < SRAProjectID_fastqc.sh >& SRAProjectID_fastqc.log &
 
 ## 2. Fastp of raw reads ##
 
 ls | grep -o "SRR[0-9]*" | uniq > SRAProjectID.txt
-
 for i in `cat SRAProjectID.txt`; do echo "fastp -w 16 -h ${i}_fastp.html -j ${i}_fastp.json -i ${i}_1.fastq -I ${i}_2.fastq -o trimmed_${i}_1.fastq -O trimmed_${i}_2.fastq >& ${i}_fastp.log"; done > SRAProjectID_fastp.sh; wc -l SRAProjectID_fastp.sh
 
-# Execute the above code in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
+# Execute the code below in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
 parallel -j n < SRAProjectID_fastp.sh >& SRAProjectID_fastp.log &
 
 ## 3. FastQC of trimmed reads ##
-
 for i in `ls trimmed*fastq`; do echo "fastqc $i -t 32 -o ."; done > SRAProjectID_trimmedFastqc.sh
 
-# Execute the above code in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of trimmed fastq files)
+# Execute the code below in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of trimmed fastq files)
 parallel -j n < SRAProjectID_trimmedFastqc.sh >& SRAProjectID_trimmedFastqc.log &
