@@ -4,12 +4,15 @@
 
 #!/bin/bash
 
+# Files required for index generation
 ln -s ~/gencode/genomeFA/GRCh38.primary_assembly.genome.fa 
 ln -s ~/gencode/genomeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
 
+# Variables required for index generation
 overHang=(insert here the max trimmed read length - 1)
 project=(insert here the PRJNA accession number)
 
+# List of number accession required for index generation
 for i in `ls ~/PRJNAProject/trimmed*.fastq`; do ln -s $i; done
 ls | grep -o "SRR[0-9]*" | sort -u > PRJNAProjectFiles.txt
 samplesList=PRJNAProjectFiles.txt
