@@ -38,12 +38,24 @@ STARanalyses () {
   done < $samplesList
 }
 
-STARanalysesNew () {
-  STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile assembly_v6.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
+
+# Preciso fazer os links simbolicos dos trimmed nas pastas 1st e 2nd
+
+STARanalysesNewAssembly_v45 () {
+
+  fasta="/work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa"
+  assembly="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/gencodeV45/finalConsensusHumanTranscriptomeV45.gtf"
+  overHang=150
+  project=PRJNA565997
+  
+  STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles ${fasta} --sjdbGTFfile ${assembly} --sjdbOverhang ${overHang} >& STARindices_${project}.log 2> STARindices_${project}.err &&
   
   pathIndexes=$(pwd)
   cd ../1st && ln -s $pathIndexes &&
-  
+
+  ls | grep -o "SRR[0-9]*" | sort -u > PRJNAProjectFiles.txt
+  samplesList=PRJNAProjectFiles.txt
+
   while read x; do 
     STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --outFileNamePrefix ${x}_STAR1stPassMapping_ --outSAMtype BAM Unsorted --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR1passMapping.log
   done < $samplesList &&
@@ -51,6 +63,9 @@ STARanalysesNew () {
   path1st=$(pwd)
   cd ../2nd && for i in $(ls $path1st/*_STAR1stPassMapping_SJ.out.tab); do ln -s $i; done
   ln -s $pathIndexes &&
+
+  ls | grep -o "SRR[0-9]*" | sort -u > PRJNAProjectFiles.txt
+  samplesList=PRJNAProjectFiles.txt
 
   while read x; do 
     STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --limitBAMsortRAM 50000000000 --outFileNamePrefix ${x}_STAR2ndPassMapping_ --outSAMtype BAM Unsorted SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --sjdbFileChrStartEnd ${x}_STAR1stPassMapping_SJ.out.tab --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR2passMapping.log
