@@ -5,4 +5,11 @@
 #!/bin/bash
 
 ## 1. In the rawData directory, create a txt list (SRAsamplesList.txt), containg the SRA NCBI samples accession number (SRR[0-9*) ##
+
 while read x; do fasterq-dump ${x} -e 30 >& ${x}.log; done < SRAsamplesList.txt &
+
+## 2. Symlinks to SRA fastq files of each SRA project into fastp/ and fastqc/ directories ##
+
+for i in `cat projects.txt`; do cd ${i}/rawData; ll | grep -o "SRR.*fastq" > fastqFiles.txt; cd ../..; done
+for i in `cat projects.txt`; do cd ${i}/fastp; ln -s ../rawData/fastqFiles.txt; cd ../..; done
+for i in `cat projects.txt`; do cd ${i}/fastp; for i in `cat fastqFiles.txt`; do ln -s ../rawData/${i}; done; cd ../..; done
