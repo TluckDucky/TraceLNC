@@ -40,7 +40,7 @@ cd ..
 
 clear; tree
 
-cd ../indexes
+cd indexes
 
 # Execute the bash script
 
