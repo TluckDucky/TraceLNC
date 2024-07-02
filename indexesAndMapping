@@ -2,22 +2,51 @@
 ### STAR mapping using the reference transcriptome ###
 ======================================================
 
-#!/bin/bash
+## Indexes directory ##
 
-# Files required for index generation
-ln -s ~/gencode/genomeFA/GRCh38.primary_assembly.genome.fa 
-ln -s ~/gencode/genomeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
+# 1. Variables required for index generation (indexes directory)
 
-# Variables required for index generation
 overHang=(insert here the max trimmed read length - 1)
 project=(insert here the PRJNA accession number)
 
-# List of number accession required for index generation
-for i in `ls ~/PRJNAProject/trimmed*.fastq`; do ln -s $i; done
-ls | grep -o "SRR[0-9]*" | sort -u > PRJNAProjectFiles.txt
-samplesList=PRJNAProjectFiles.txt
+vim starFiles.sh
 
-# Create the following function on your server and modify it accordingly to your files.
+#!/bin/bash
+
+# 1. Files required for index generation (indexes directory)
+
+ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
+ln -s /work2/group/trofo-zika/gencode/gencodeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
+
+# 2. List of number accession required for index generation (1st and 2nd directories)
+
+cd ../1st
+
+for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
+
+ls | grep -o "SRR[0-9]*" | sort -u > fastqFiles.txt
+
+samplesList=fastqFiles.txt
+
+cd ../2nd
+
+for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
+
+ls | grep -o "SRR[0-9]*" | sort -u > fastqFiles.txt
+
+samplesList=fastqFiles.txt
+
+cd ..
+
+clear; tree
+
+cd ../indexes
+
+# Execute the bash script
+
+bash starFiles.sh
+
+# Create the following function on the server and modify it accordingly to files.
 
 STARanalyses () {
   STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile gencode.v45.primary_assembly.annotation.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
@@ -38,6 +67,7 @@ STARanalyses () {
   done < $samplesList
 }
 
+## Mapping of twin's samples in the new transcriptome ##
 
 # Preciso fazer os links simbolicos dos trimmed nas pastas 1st e 2nd
 
