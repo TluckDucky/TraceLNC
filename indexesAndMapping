@@ -36,6 +36,10 @@ cd ../2nd
 
 for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
 
+# Extraction and storage of SRR IDs in fastqFiles.txt
+
+ls | grep -o "SRR[0-9]*" | sort -u > fastqFiles.txt
+
 cd ..
 
 clear; tree
