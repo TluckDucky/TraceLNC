@@ -2,12 +2,13 @@
 ### STAR mapping using the reference transcriptome ###
 ======================================================
 
-## Indexes directory ##
-
-# 1. Variables required for index generation (indexes directory)
+# 1. Variables required for index generation (tmux session)
 
 overHang=(insert here the max trimmed read length - 1)
 project=(insert here the PRJNA accession number)
+samplesList=fastqFiles.txt
+
+## Indexes directory ##
 
 vim starFiles.sh
 
@@ -22,21 +23,19 @@ ln -s /work2/group/trofo-zika/gencode/gencodeAnnotationGTF/gencode.v45.primary_a
 
 cd ../1st
 
+# Symlinks for trimmed fastq files
+
 for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
 
-ls | grep -o "SRR[0-9]*" | sort -u > fastqFiles.txt
+# Extraction and storage of SRR IDs in fastqFiles.txt
 
-samplesList=fastqFiles.txt
+ls | grep -o "SRR[0-9]*" | sort -u > fastqFiles.txt
 
 cd ../2nd
 
+# Symlinks for trimmed fastq files
+
 for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
-
-ls | grep -o "SRR[0-9]*" | sort -u > fastqFiles.txt
-
-samplesList=fastqFiles.txt
-
-cd ..
 
 clear; tree
 
