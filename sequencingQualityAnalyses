@@ -2,44 +2,65 @@
 ### Sequencing quality analyses using FastQC and Fastp algorithms ###
 =====================================================================
 
-#!/bin/bash
-
 ## 1. FastQC of raw reads ##
 
+vim fastqFiles_fastqc.sh
 
+#!/bin/bash
 
+while read project; do
+        cd ${project}/fastqc
+        ln -s ../rawData/fastqFiles.txt
 
+        while read SRA; do
+                echo "fastqc ${SRA} -t 32 -o ."
+        done < fastqFiles.txt > fastqFiles_fastqc.sh
 
+        jobs=$(wc -l < fastqFiles_fastqc.sh)
+        parallel -j ${jobs} < fastqFiles_fastqc.sh >& fastqFiles_fastqc.log &
+        cd ../..
+done < projects.txt
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-for i in `ls SRR[0-9]*`; do echo "fastqc $i -t 32 -o ."; done > SRAProjectID_fastqc.sh
-
-# Execute the code below in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
-parallel -j n < SRAProjectID_fastqc.sh >& SRAProjectID_fastqc.log &
+bash fastqFiles_fastqc.sh
 
 ## 2. Fastp of raw reads ##
-ls | grep -o "SRR[0-9]*" | uniq > SRAProjectID.txt
-for i in `cat SRAProjectID.txt`; do echo "fastp -w 16 -h ${i}_fastp.html -j ${i}_fastp.json -i ${i}_1.fastq -I ${i}_2.fastq -o trimmed_${i}_1.fastq -O trimmed_${i}_2.fastq >& ${i}_fastp.log"; done > SRAProjectID_fastp.sh; wc -l SRAProjectID_fastp.sh
 
-# Execute the code below in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of fastq files)
-parallel -j n < SRAProjectID_fastp.sh >& SRAProjectID_fastp.log &
+vim fastqFiles_fastp.sh
+
+#!/bin/bash
+
+while read project; do
+        cd ${project}/fastp
+        ls | grep -o "SRR[0-9]*" | sort -u > SRAProjectID.txt
+
+        while read SRA; do
+                echo "fastp -w 16 -h ${SRA}_fastp.html -j ${SRA}_fastp.json -i ${SRA}_1.fastq -I ${SRA}_2.fastq -o trimmed_${SRA}_1.fastq -O trimmed_${SRA}_2.fastq >& ${SRA}_fastp.log"
+        done < SRAProjectID.txt > SRAProjectID_fastp.sh
+
+        jobs=$(wc -l < SRAProjectID_fastp.sh)
+        parallel -j ${jobs} < SRAProjectID_fastp.sh >& SRAProjectID_fastp.log &
+        cd ../..
+done < projects.txt
+
+bash fastqFiles_fastp.sh
 
 ## 3. FastQC of trimmed reads ##
-for i in `ls trimmed*fastq`; do echo "fastqc $i -t 32 -o ."; done > SRAProjectID_trimmedFastqc.sh
 
-# Execute the code below in parallel (in SRAProjectID, change to PRJNA ID, chage n to the number of trimmed fastq files)
-parallel -j n < SRAProjectID_trimmedFastqc.sh >& SRAProjectID_trimmedFastqc.log &
+vim trimmed_fastqFiles_fastqc.sh
+
+#!/bin/bash
+
+while read project; do
+        cd ${project}/fastp
+        ls | grep "trimmed.*" > trimmed_fastqFiles.txt
+
+        while read SRA; do
+                echo "fastqc ${SRA} -t 32 -o ."
+        done < trimmed_fastqFiles.txt > trimmed_fastqFiles_fastqc.sh
+
+        jobs=$(wc -l < trimmed_fastqFiles_fastqc.sh)
+        parallel -j ${jobs} < trimmed_fastqFiles_fastqc.sh >& trimmed_fastqFiles_fastqc.log &
+        cd ../..
+done < projects.txt
+
+bash trimmed_fastqFiles_fastqc.sh
