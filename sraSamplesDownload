@@ -10,7 +10,7 @@ ll | grep -o "PRJNA[0-9]*" > projects.txt
 
 ## 2. Create subdirectories running the following
 
-for i in `cat projects.txt`; do cd $i; mkdir {star,fastp,fastqc,gbc,infer,tin,rawData,scallop}; cd ..; done
+for i in `cat projects.txt`; do cd $i; mkdir {star,fastp,fastqc,gbc,infer,tin,rawData}; cd ..; done
 
 for i in `cat projects.txt`; do cd ${i}/star; mkdir {indexes,1st,2nd}; cd ../..; done
 
