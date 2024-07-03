@@ -50,7 +50,7 @@ bash starFiles.sh
 
 # 4. 1st or 2nd directories - Variable required for mapping #
 
-samplesList=fastqFiles.txt
+cd ../1st; samplesList=fastqFiles.txt; cd ../2nd; samplesList=fastqFiles.txt; cd ../indexes
 
 # 5. tmux session - Create the following function #
 
