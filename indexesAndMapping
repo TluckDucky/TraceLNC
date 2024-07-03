@@ -109,3 +109,78 @@ STARanalysesNewAssembly_v45 () {
     STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --limitBAMsortRAM 50000000000 --outFileNamePrefix ${x}_STAR2ndPassMapping_ --outSAMtype BAM Unsorted SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --sjdbFileChrStartEnd ${x}_STAR1stPassMapping_SJ.out.tab --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR2passMapping.log
   done < $samplesList
 }
+
+====================================================================
+### TB's lineages STAR mapping using the reference transcriptome ###
+====================================================================
+
+# 1. tmux session - Variables required for index generation #
+
+overHang=(insert here the max trimmed read length - 1)
+project=(insert here the PRJNA accession number)
+
+# 2. Indexes directory #
+
+vim starFiles.sh
+
+#!/bin/bash
+
+# Files required for index generation (indexes directory)
+
+ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
+ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/taco_gencodeV45/tacoAssembly_gencodeV45/assembly_ordenado_v5.gtf
+
+# List of number accession required for index generation (1st and 2nd directories)
+
+cd ../1st
+
+# Symlinks for trimmed fastq files
+
+for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
+
+# Extraction and storage of SRR IDs in fastqFiles.txt
+
+ls | grep -o "SRR[0-9]*" | sort -u > fastqFiles.txt
+
+cd ../2nd
+
+# Symlinks for trimmed fastq files
+
+for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
+
+# Extraction and storage of SRR IDs in fastqFiles.txt
+
+ls | grep -o "SRR[0-9]*" | sort -u > fastqFiles.txt
+
+cd ..
+
+clear; tree
+
+# 3. Execute the bash script #
+
+bash starFiles.sh
+
+# 4. 1st or 2nd directories - Variable required for mapping #
+
+cd ../1st; samplesList=fastqFiles.txt; cd ../2nd; samplesList=fastqFiles.txt; cd ../indexes
+
+# 5. tmux session - Create the following function #
+
+STARanalysesLineages () {
+  STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile assembly_ordenado_v5.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
+  
+  pathIndexes=$(pwd)
+  cd ../1st && ln -s $pathIndexes &&
+  
+  while read x; do 
+    STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --outFileNamePrefix ${x}_STAR1stPassMapping_ --outSAMtype BAM Unsorted --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR1passMapping.log
+  done < $samplesList &&
+
+  path1st=$(pwd)
+  cd ../2nd && for i in $(ls $path1st/*_STAR1stPassMapping_SJ.out.tab); do ln -s $i; done
+  ln -s $pathIndexes &&
+
+  while read x; do 
+    STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --limitBAMsortRAM 50000000000 --outFileNamePrefix ${x}_STAR2ndPassMapping_ --outSAMtype BAM Unsorted SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --sjdbFileChrStartEnd ${x}_STAR1stPassMapping_SJ.out.tab --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR2passMapping.log
+  done < $samplesList
+}
