@@ -9,8 +9,13 @@ vim fastqFiles_fastqc.sh
 #!/bin/bash
 
 while read project; do
-        cd ${project}/fastqc
+        cd ${project}/rawData
+        ls| grep " *.fastq" > fastqFiles.txt
+
+        cd ../fastqc
         ln -s ../rawData/fastqFiles.txt
+
+        for i in `cat fastqFiles.txt`; do ln -s ../rawData/${i}; done
 
         while read SRA; do
                 echo "fastqc ${SRA} -t 32 -o ."
@@ -31,6 +36,10 @@ vim fastqFiles_fastp.sh
 
 while read project; do
         cd ${project}/fastp
+        ln -s ../rawData/fastqFiles.txt
+
+        for i in `cat fastqFiles.txt`; do ln -s ../rawData/${i}; done
+
         ls | grep -o "SRR[0-9]*" | sort -u > SRAProjectID.txt
 
         while read SRA; do
