@@ -128,7 +128,7 @@ vim starFiles.sh
 # Files required for index generation (indexes directory)
 
 ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
-ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/taco_gencodeV45/tacoAssembly_gencodeV45/assembly_ordenado_v5.gtf
+ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/gencodeV45/finalConsensusHumanTranscriptomeV45.gtf
 
 # List of number accession required for index generation (1st and 2nd directories)
 
@@ -167,7 +167,7 @@ cd ../1st; samplesList=fastqFiles.txt; cd ../2nd; samplesList=fastqFiles.txt; cd
 # 5. tmux session - Create the following function #
 
 STARanalysesLineages () {
-  STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile assembly_ordenado_v5.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
+  STAR --runMode genomeGenerate --runThreadN 16 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile finalConsensusHumanTranscriptomeV45.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
   
   pathIndexes=$(pwd)
   cd ../1st && ln -s $pathIndexes &&
