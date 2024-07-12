@@ -24,3 +24,8 @@ parallel -j n < geneBody_coverage.sh >& geneBody_coverage.log &
 
 ## 4 infer_experiment.py ##
 
+ln -s /work2/group/trofo-zika/gencode/gencodeBed/gencode.v45.primary_assembly.annotation.bed
+for i in `cat ../projects.txt`; do ll ../${i}/star/2nd/*STAR2ndPassMapping_Aligned.out.bam | sed 's/ /\t/g' | cut -f10 >> bewo_bamFiles.txt; done
+for i in `cat bewo_bamFiles.txt`; do ln -s $i; done
+
+for i in `cat bewo_bamFiles.txt`; do echo -e "\n\nData from ${i}:"; infer_experiment.py -r gencode.v45.primary_assembly.annotation.bed -i ${i}; done > inferExperiment.txt
