@@ -11,7 +11,6 @@
 ### Upload the new transcriptome to UCSC Genome Browser ###
 ===========================================================
 
-track name="New Human lincRNAs Transcriptome" description="New human lincRNAs transcriptome, sst, gencode, databases" visibility=3 colorByStrand="255,0,0 0,0,255"
-browser position chr14:28,694,483-28,841,182
+track name="New Human lincRNAs Transcriptome" description="New human lincRNAs transcriptome" visibility=3
 
 https://verjo103.butantan.gov.br/users/thalles_lopes/assembly_ordenado_v5.gtf
