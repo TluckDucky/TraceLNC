@@ -9,10 +9,7 @@ vim fastqFiles_fastqc.sh
 #!/bin/bash
 
 while read project; do
-        cd ${project}/rawData
-        ls| grep " *.fastq" > fastqFiles.txt
-
-        cd ../fastqc
+        cd ${project}/fastqc
         ln -s ../rawData/fastqFiles.txt
 
         for i in `cat fastqFiles.txt`; do ln -s ../rawData/${i}; done
