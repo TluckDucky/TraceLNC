@@ -19,12 +19,13 @@ myScallop1stscript () {
 
                 for i in `cat bamFiles.txt`; do echo "scallop -i ${i}_STAR2ndPassMapping_Aligned.sortedByCoord.out.bam -o ${i}_${bioProject}_scallop.gtf --library_type first --min_transcript_length_base 200 --min_mapping_quality 255 --min_splice_bundary_hits 2 --min_num_hits_in_bundle 20 --min_transcript_coverage 10 >& ${i}_${bioProject}_scallop.log 2> ${i}_${bioProject}_scallop.err"; done > ${bioProject}_scallop.sh;
 
+                jobs=$(wc -l < ${bioProject}_scallop.sh)
+
+                parallel -j ${jobs} < ${bioProject}_scallop.sh > ${bioProject}_scallop.log &
+
                 cd ../..; \
         done
 }
-
-# Executar a montagem dos gtfs em paralelo nos diretorios de cada projeto. n é o número de linhas de cada arquivo sh
-parallel -j n < ${bioProject}_scallop.sh > ${bioProject}_scallop.log &
 
 
 
