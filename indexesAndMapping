@@ -16,7 +16,7 @@ vim starFiles.sh
 # Files required for index generation (indexes directory)
 
 ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
-ln -s /work2/group/trofo-zika/gencode/gencodeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
+ln -s /work2/group/trofo-zika/gencodeV46/primaryAssemblyAnnotation/gencode.v46.primary_assembly.annotation.gtf
 
 # List of number accession required for index generation (1st and 2nd directories)
 
