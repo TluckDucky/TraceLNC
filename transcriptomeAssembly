@@ -8,11 +8,13 @@ myScallop1stscript () {
         for project in `ls | grep -w "PRJNA[0-9]*"`; do \
                 bioProject=${project}; \
                 #mkdir ${bioProject}/scallop1st/; \
-                mkdir ${bioProject}/scallop1st_robust/; \
+                #mkdir ${bioProject}/scallop1st_robust/; \
+                mkdir ${bioProject}/scallop1st_more_robust/; \
                 cd ${bioProject}/star/2nd/; \
                 dirBams=$(pwd); \
                 #cd ../../scallop1st/; \
-                cd ../../scallop1st_robust/; \
+                #cd ../../scallop1st_robust/; \
+                cd ../../scallop1st_more_robust/; \
 
                 for i in `ls ${dirBams}/*Aligned.sortedByCoord.out.bam`; do ln -s $i; done; \
 
