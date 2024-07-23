@@ -47,6 +47,44 @@ ls SRR*gtf > stranded_files.txt
 
 taco_run -o taco_stranded -p 32 --guided-assembly --guided-strand --guided-end --gtf-expr-attr RPKM --ref-genome-fasta GRCh38.primary_assembly.genome.fa --ref-gtf gencode.v45.primary_assembly.annotation.gtf --no-assemble-unstranded stranded_files.txt >& taco_run_stranded.log &
 
+===================================================
+### Format the new human transcriptome assembly ###
+===================================================
+
+# First, organize transcripts and exons using the taco output bed file
+
+bedToGenePred assembly.bed /dev/stdout | genePredToGtf file /dev/stdin assembly_ordenado.gtf
+
+# Second, remove transcripts assigned to scaffolds and contigs from organized and unorganized files
+
+cut -f1 assembly_ordenado.gtf | sort -u | grep "KI.*\|GL.*" > listOUT.txt
+grep -f listOUT.txt -v assembly_ordenado.gtf > assembly_ordenado_v2.gtf
+
+# Import the transcriptome to R and proceed with the formatation
+
+
+
+
+
+
+
+
+# Parse the file assembly_ordenado_v2.gtf
+
+ln -s ../../scripts/script-parse-gtf-tsl.pl
+
+
+
+
+
+
+
+
+
+
+
+
+
 ===========================================================
 ### Upload the new transcriptome to UCSC Genome Browser ###
 ===========================================================
