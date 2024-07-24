@@ -45,7 +45,7 @@ ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.f
 
 ls SRR*gtf > stranded_files.txt
 
-taco_run -o taco_stranded -p 32 --guided-assembly --guided-strand --guided-end --gtf-expr-attr RPKM --ref-genome-fasta GRCh38.primary_assembly.genome.fa --ref-gtf gencode.v45.primary_assembly.annotation.gtf --no-assemble-unstranded stranded_files.txt >& taco_run_stranded.log &
+taco_run -o taco_stranded -p 32 --guided-assembly --guided-strand --guided-end --gtf-expr-attr RPKM --ref-genome-fasta --isoform-frac .5 GRCh38.primary_assembly.genome.fa --ref-gtf gencode.v45.primary_assembly.annotation.gtf --no-assemble-unstranded stranded_files.txt >& taco_run_stranded.log &
 
 ===================================================
 ### Format the new human transcriptome assembly ###
