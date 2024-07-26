@@ -60,7 +60,7 @@ bedToGenePred assembly.bed /dev/stdout | genePredToGtf file /dev/stdin assembly_
 # Second, remove transcripts assigned to scaffolds and contigs from organized and unorganized files
 
 cut -f1 assembly_ordenado.gtf | sort -u | grep "KI.*\|GL.*" > listOUT.txt
-grep -f listOUT.txt -v assembly_ordenado.gtf > assembly_ordenado_v2.gtf
+grep -f listOUT.txt -v assembly_ordenado.gtf > assembly_ordenado_v2_scallopRobust_isofrac025.gtf
 
 # Import the transcriptome to R and proceed with the formatation
 
