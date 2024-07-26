@@ -24,7 +24,7 @@ myScallop1stscript () {
 
                 ll *Aligned.sortedByCoord.out.bam | grep -o "SRR[0-9]*" | sort -u > bamFiles.txt; \
 
-                for i in `cat bamFiles.txt`; do echo "scallop -i ${i}_STAR2ndPassMapping_Aligned.sortedByCoord.out.bam -o ${i}_${bioProject}_scallop.gtf --library_type first --min_transcript_length_base 200 --min_mapping_quality 255 --min_splice_bundary_hits 5 --min_num_hits_in_bundle 20 --min_transcript_coverage 5 >& ${i}_${bioProject}_scallop.log 2> ${i}_${bioProject}_scallop.err"; done > ${bioProject}_scallop.sh;
+                for i in `cat bamFiles.txt`; do echo "scallop -i ${i}_STAR2ndPassMapping_Aligned.sortedByCoord.out.bam -o ${i}_${bioProject}_scallop.gtf --library_type first --min_transcript_length_base 200 --min_mapping_quality 255 --min_splice_bundary_hits 10 --min_num_hits_in_bundle 20 --min_transcript_coverage 10 >& ${i}_${bioProject}_scallop.log 2> ${i}_${bioProject}_scallop.err"; done > ${bioProject}_scallop.sh;
 
                 jobs=$(wc -l < ${bioProject}_scallop.sh)
 
@@ -47,7 +47,7 @@ ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.f
 
 ls SRR*gtf > stranded_files.txt
 
-taco_run -o taco_stranded_final -p 32 --guided-assembly --guided-strand --guided-end --gtf-expr-attr RPKM --isoform-frac .5 --ref-genome-fasta GRCh38.primary_assembly.genome.fa --ref-gtf gencode.v45.primary_assembly.annotation.gtf --no-assemble-unstranded stranded_files.txt >& taco_run_stranded.log &
+taco_run -o taco_stranded_final -p 32 --guided-assembly --guided-strand --guided-end --gtf-expr-attr RPKM --isoform-frac .25 --ref-genome-fasta GRCh38.primary_assembly.genome.fa --ref-gtf gencode.v45.primary_assembly.annotation.gtf --no-assemble-unstranded stranded_files.txt >& taco_run_stranded.log &
 
 ===================================================
 ### Format the new human transcriptome assembly ###
