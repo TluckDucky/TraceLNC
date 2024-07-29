@@ -62,18 +62,93 @@ bedToGenePred assembly.bed /dev/stdout | genePredToGtf file /dev/stdin assembly_
 cut -f1 assembly_ordenado.gtf | sort -u | grep "KI.*\|GL.*" > listOUT.txt
 grep -f listOUT.txt -v assembly_ordenado.gtf > assembly_ordenado_v2_scallopRobust_isofrac025.gtf
 
-# Import the transcriptome to R and proceed with the formatation
+======================================================================
+### Import the transcriptome to R and proceed with the formatation ###
+======================================================================
 
+#!/usr/bin/env Rscript 
 
+library(readr) #read_tsv
+library(tibble) #add_column
+library(dplyr) #%>%
+library(tidyr) #separate
 
+# Import the transcriptome
 
+assembly <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/assembly_ordenado_v2_scallopRobust_isofrac025.gtf", col_names = F)
 
+# In case of "I messed up"
 
+assembly_backup <- assembly
+assembly <- assembly_backup
 
+# Print column names
 
-# Parse the file assembly_ordenado_v2.gtf
+names(assembly)
+
+# Format columns 2 and 9
+
+assembly$X2 <- "taco"
+
+assembly$X9 <- ifelse(assembly$X3 %in% 'exon', 
+                                  gsub(' exon_number.*','',assembly$X9),
+                      assembly$X9)
+
+assembly <- assembly %>%
+  add_column(X10 = assembly$X9,
+             X11 = assembly$X9)
+
+assembly$X9 <- gsub('TU.*',';',assembly$X9)
+assembly$X9 <- gsub('|','"',assembly$X9, fixed = T)
+
+assembly$X10 <- gsub('.*transcript_id.*',' transcript_id "',assembly$X10)
+
+assembly$X11 <- sapply(strsplit(assembly$X11,
+                                            split = "(",
+                                            fixed = T), `[[`, 1)
+
+assembly$X11 <- gsub('.*TU','TU',assembly$X11)
+
+assembly <- assembly %>%
+  add_column(X12 = paste0(assembly$X9,
+                          assembly$X10,
+                          assembly$X11,
+                          '";'))
+
+assembly_v2 <- assembly[,c(1:8,12)]
+
+colnames(assembly_v2)[9] <- 'X9'
+
+write.table(assembly_v2,
+            "assembly_ordenado_v3.gtf",
+            col.names = F,
+            row.names = F,
+            sep = "\t",
+            quote = F)
+
+===============================================
+### Parse the file assembly_ordenado_v3.gtf ###
+===============================================
 
 ln -s ../../scripts/script-parse-gtf-tsl.pl
+
+perl script-parse-gtf-tsl.pl assembly.gtf  assembly_ordenado_v3.gtf > assembly_ordenado_v4.gtf
+
+==========================================
+### Format column 9 of the parsed file ###
+==========================================
+
+awk -F "\t" '{ print $9 }' assembly_ordenado_v4.gtf | awk -F ";" '{ print $7,$6,$5,$1,$2,$3,$4 }' | sed 's/ //g; s/"/";/g; s/";G/ "G/g; s/";;/";/g; s/transcript_id/ transcript_id /g; s/";TU/"TU/g; s/expr";/ expr "/g; s/tss_id";/ tss_id "/g; s/locus_id";/ locus_id "/g; s/abs_frac";/ abs_frac "/g; s/rel_frac";/ rel_frac "/g' > col9_formatada_assembly_ordenado_v4.gtf
+
+# Select the first eight columns and paste with the new column 9, formatted above to build the gtf for further anotation and downstream analyses
+
+cut -f1,2,3,4,5,6,7,8 assembly_ordenado_v4.gtf > cols1-8_assembly_ordenado_v4.gtf
+
+paste cols1-8_assembly_ordenado_v4.gtf col9_formatada_assembly_ordenado_v4.gtf > assembly_ordenado_v5.gtf
+
+
+
+
 
 
 
