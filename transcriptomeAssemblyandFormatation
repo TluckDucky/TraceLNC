@@ -201,10 +201,53 @@ cat feel_lnc_IDs.txt feel_noORF_IDs.txt | sort -u > feel_nc_IDs.txt
 
 ### CPC2
 
+vim cpc_analysis.sh
 
+#!/bin/bash
 
+ref="/work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa"
+query="/work2/group/trofo-zika/humanTranscriptome_gencodev45/taco_gencodeV45_scallopRobust_isofrac025/taco_stranded_final/assembly_ordenado_v5.gtf"
 
+gtf2bed --gtf ${query} --bed assembly_ordenado_v5.bed &&
 
+bedtools getfasta -fi ${ref} -fo assembly_ordenado_v5.fa -bed assembly_ordenado_v5.bed -name -split &&
+
+python3.6 $CPC2_HOME/bin/CPC2.py -i assembly_ordenado_v5.fa -o ./cpc2 >& cpc2.log &&
+
+cut -f8 cpc2.txt | sort | uniq -c
+
+awk -F "\t" '{ if ($8~/noncoding/) print $1 }' cpc2.txt | awk -F "::" '{ print $1 }' | sort -u > cpc_nc_IDs.txt
+
+awk -F "\t" '{ if ($8~/^coding/) print $1 }' cpc2.txt | awk -F "::" '{ print $1 }' | sort -u > cpc_pc_IDs.txt
+
+### CPAT
+
+vim cpat_analysis.sh
+
+#!/bin/bash
+
+pcTranscripts="/work2/group/trofo-zika/gencode/gencodePcTranscripts/gencode.v45.pc_transcripts.fa"
+ncTranscripts="/work2/group/trofo-zika/gencode/gencodeLncTranscripts/gencode.v45.lncRNA_transcripts.fa"
+ref="/work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa"
+assembly="/work2/group/trofo-zika/humanTranscriptome_gencodev45/taco_gencodeV45_scallopRobust_isofrac025/taco_stranded_final/codingPotential/cpc2/assembly_ordenado_v5.fa"
+
+make_hexamer_tab.py -c ${pcTranscripts} -n ${ncTranscripts} > human_hexamer.tsv &&
+
+make_logitModel.py -c ${pcTranscripts} -n ${ncTranscripts} -o logitModel_ -x human_hexamer.tsv &&
+
+cpat.py -r ${ref} -x human_hexamer.tsv --antisense -d logitModel_.logit.RData --top-orf=5 -g ${assembly} -o CPAT_codpot_ &&
+
+awk '$10 < 0.364' CPAT_codpot_.ORF_prob.tsv > cpat_noncodingORFs.txt
+
+awk '$10 >= 0.364' CPAT_codpot_.ORF_prob.tsv > cpat_codingORFs.txt
+
+awk -F "::" '{print $1}' cpat_noncodingORFs.txt | sort -u > cpat_IDs_noncodingORFs.txt
+awk -F "::" '{print $1}' cpat_codingORFs.txt | tail -n +2 | sort -u > cpat_IDs_codingORFs.txt
+awk -F "::" '{print $1}' cpat_noORF.txt | sort -u > cpat_IDs_noORFs.txt
+
+grep -Fxvf cpat_IDs_codingORFs.txt cpat_IDs_noncodingORFs.txt > cpat_putative_IDs_noncodingORFs.txt
+
+cat cpat_IDs_noORFs.txt cpat_putative_IDs_noncodingORFs.txt | sort -u > cpat_nc_IDs.txt                                                                                                     
 
 ===========================================================
 ### Upload the new transcriptome to UCSC Genome Browser ###
