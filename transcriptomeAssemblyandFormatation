@@ -64,9 +64,7 @@ bedToGenePred assembly.bed /dev/stdout | genePredToGtf file /dev/stdin assembly_
 cut -f1 assembly_ordenado.gtf | sort -u | grep "KI.*\|GL.*" > listOUT.txt
 grep -f listOUT.txt -v assembly_ordenado.gtf > assembly_ordenado_v2_scallopRobust_isofrac025.gtf
 
-======================================================================
-### Import the transcriptome to R and proceed with the formatation ###
-======================================================================
+### Import the transcriptome to R and proceed with the formatation
 
 #!/usr/bin/env Rscript 
 
@@ -165,6 +163,53 @@ ln -s /work2/group/trofo-zika/gencode/gencodeAnnotationGTF/gencode.v45.primary_a
 ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
 
 gffcompare -r gencode.v45.primary_assembly.annotation.gtf -s GRCh38.primary_assembly.genome.fa -o gffcmp_gencodeV45 assembly_ordenado_v5.gtf >& gffcmp_gencodeV45.log &
+
+============================================================================
+### Removal of transcripts of [=kmnesp] classes and monoexon transcripts ###
+============================================================================
+
+#!/bin/bash
+
+# Select only transcripts of classes [jcoxiyu]
+
+awk -F "\t" '{ if ($4~/j|c|o|x|i|y/) print $0 }' gffcmp_gencodeV45.tracking > class_jcoxiy_assembly_v5.tracking
+
+awk -F "\t" '{ if ($4~/u/) print $0}' gffcmp_gencodeV45.tracking > class_u_assembly_v5.tracking
+
+# Remove monoexon transcripts
+
+awk -F "|" '{ if ($4 > 1) print $0 }' class_jcoxiy_assembly_v5.tracking > class_jcoxiy_assembly_v5_noMonoexon.tracking
+
+awk -F "|" '{ if ($3 > 1) print $0 }' class_u_assembly_v5.tracking > class_u_assembly_v5_noMonoexon.tracking
+
+# Select the IDs of these transcripts
+
+awk -F "|" '{ print $3 }' class_jcoxiy_assembly_v5_noMonoexon.tracking | sort -u > class_jcoxiy_assembly_v5_noMonoexon_IDs.txt
+
+awk -F "|" '{ print $2 }' class_u_assembly_v5_noMonoexon.tracking | sort -u > class_u_assembly_v5_noMonoexon_IDs.txt
+
+### Import these IDs to R for further annotation
+
+#!/usr/bin/env Rscript 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 =================================
 ### Coding potential analyses ###
