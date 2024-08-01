@@ -188,10 +188,54 @@ awk -F "|" '{ print $3 }' class_jcoxiy_assembly_v5_noMonoexon.tracking | sort -u
 
 awk -F "|" '{ print $2 }' class_u_assembly_v5_noMonoexon.tracking | sort -u > class_u_assembly_v5_noMonoexon_IDs.txt
 
-### Import these IDs to R for further annotation
+### Import these IDs to R for further annotation of class [u] transcripts
 
 #!/usr/bin/env Rscript 
 
+assembly_v5 <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/assembly_ordenado_v5.gtf",col_names = F)
+
+names(assembly_v5)
+
+onlyU <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/class_u_assembly_v5_noMonoexon_IDs.txt",col_names = F)
+others <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/class_jcoxiy_assembly_v5_noMonoexon_IDs.txt",col_names = F)
+
+# Criar uma coluna no objeto do transcriptoma para inserir somente os IDs dos trancritos
+
+assembly_v5$X10 <- assembly_v5$X9
+
+# Remover todas as informacoes desnecessarias
+
+assembly_v5$X10 <- gsub('.*transcript_id |; expr.*|;|"',
+                        '',
+                        assembly_v5$X10)
+
+# Conferir quantos [jcoxiy] e [u] estao no transcriptoma
+
+table(onlyU$X1 %in% assembly_v5$X10)
+table(others$X1 %in% assembly_v5$X10)
+
+# Criar um transcriptoma com [jcoxiy] e outro somente com [u]
+
+assembly_v5_onlyU <- assembly_v5[(assembly_v5$X10 %in% onlyU$X1),]
+assembly_v5_others <- assembly_v5[(assembly_v5$X10 %in% others$X1),]
+
+# Verificar o numero de transcritos nos transcriptomas filtrados
+
+table(assembly_v5_onlyU$X3)
+table(assembly_v5_others$X3)
+
+# Remover a ultima coluna do gtf somente com transcritos da classe [u] para comprar com os transcriptomas de ulitsky, kaessmann, david e noncode
+
+assembly_v5_onlyU_v2 <- assembly_v5_onlyU[,-10]
+
+# Exportar os transcritos de classe [u] e comparar com os transcriptomas de ulitsky, kaessmann, david e noncode
+
+write.table(assembly_v5_onlyU_v2,
+            "assembly_v5_onlyU_v2.gtf",
+            col.names = F,
+            row.names = F,
+            sep = "\t",
+            quote = F)
 
 
 
@@ -210,6 +254,38 @@ awk -F "|" '{ print $2 }' class_u_assembly_v5_noMonoexon.tracking | sort -u > cl
 
 
 
+
+
+
+
+=====================================================================
+### Comparison of class [u] Gv45 transcripts with other databases ###
+=====================================================================
+
+#!/bin/bash
+
+fasta="/work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa"
+annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/noncodeV5/NONCODEv5_human_hg38_lncRNA.gtf"
+query=assembly_v5_onlyU_v2.gtf
+
+# Extrair o nome do arquivo da variável $annot
+annot_filename=$(basename "$annot")
+
+# Remover a extensão do arquivo
+annot_name="${annot_filename%.*}"
+
+gffcompare -r ${annot} -s ${fasta} -o gff_${annot_name}_${query} ${query} >& gff_${annot_name}_${query}.log &&
+
+awk -F "\t" '{ if ($4~/u/) print $0 }' gff_${annot_name}_${query}.tracking | awk -F "|" '{ print $2 }' > class_u_david_IDs.txt &&
+
+echo "A quantidade de transcritos de cada classe é:"
+cut -f4 gff_${annot_name}_${query}.tracking | sort | uniq -c
+
+### Change annot accordingly to the reference of comparison
+
+annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/david/david_hg38.human.gtf"
+annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/hezroni_uli/ulitsky_hg38.transcriptome.gtf"
+annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/sarropoulos_kaess/kaessmann_hg38.transcriptome.gtf"
 
 =================================
 ### Coding potential analyses ###
