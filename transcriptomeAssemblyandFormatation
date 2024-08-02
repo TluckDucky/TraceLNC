@@ -150,9 +150,9 @@ cut -f1,2,3,4,5,6,7,8 assembly_ordenado_v4.gtf > cols1-8_assembly_ordenado_v4.gt
 
 paste cols1-8_assembly_ordenado_v4.gtf col9_formatada_assembly_ordenado_v4.gtf > assembly_ordenado_v5.gtf
 
-=================================
-### Annotation of transcripts ###
-=================================
+====================================================================
+### Comparison of assembled transcripts to reference transcripts ###
+====================================================================
 
 #!/bin/bash
 
@@ -237,27 +237,6 @@ write.table(assembly_v5_onlyU_v2,
             sep = "\t",
             quote = F)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 =====================================================================
 ### Comparison of class [u] Gv45 transcripts with other databases ###
 =====================================================================
@@ -276,7 +255,7 @@ annot_name="${annot_filename%.*}"
 
 gffcompare -r ${annot} -s ${fasta} -o gff_${annot_name}_${query} ${query} >& gff_${annot_name}_${query}.log &&
 
-awk -F "\t" '{ if ($4~/u/) print $0 }' gff_${annot_name}_${query}.tracking | awk -F "|" '{ print $2 }' > class_u_david_IDs.txt &&
+awk -F "\t" '{ if ($4~/u/) print $0 }' gff_${annot_name}_${query}.tracking | awk -F "|" '{ print $2 }' > class_u_${annot_name}_IDs.txt &&
 
 echo "A quantidade de transcritos de cada classe é:"
 cut -f4 gff_${annot_name}_${query}.tracking | sort | uniq -c
@@ -369,6 +348,46 @@ awk -F "::" '{print $1}' CPAT_codpot_.no_ORF.txt | sort -u > cpat_IDs_noORFs.txt
 grep -Fxvf cpat_IDs_codingORFs.txt cpat_IDs_noncodingORFs.txt > cpat_putative_IDs_noncodingORFs.txt
 
 cat cpat_IDs_noORFs.txt cpat_putative_IDs_noncodingORFs.txt | sort -u > cpat_nc_IDs.txt                                                                                                     
+
+=================================
+### Annotation of transcripts ###
+=================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ===========================================================
 ### Upload the new transcriptome to UCSC Genome Browser ###
