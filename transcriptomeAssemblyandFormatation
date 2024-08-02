@@ -260,11 +260,13 @@ awk -F "\t" '{ if ($4~/u/) print $0 }' gff_${annot_name}_${query}.tracking | awk
 echo "A quantidade de transcritos de cada classe é:"
 cut -f4 gff_${annot_name}_${query}.tracking | sort | uniq -c
 
+cp class_u_${annot_name}_IDs.txt /var/www/html/users/thalles_lopes
+
 ### Change annot accordingly to the reference of comparison
 
-annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/david/david_hg38.human.gtf"
-annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/hezroni_uli/ulitsky_hg38.transcriptome.gtf"
-annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/sarropoulos_kaess/kaessmann_hg38.transcriptome.gtf"
+#annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/david/david_hg38.human.gtf"
+#annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/hezroni_uli/ulitsky_hg38.transcriptome.gtf"
+#annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/sarropoulos_kaess/kaessmann_hg38.transcriptome.gtf"
 
 =================================
 ### Coding potential analyses ###
