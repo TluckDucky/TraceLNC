@@ -34,16 +34,87 @@ myScallop1stscript () {
         done
 }
 
-========================================
-### New human transcriptome assembly ###
-========================================
+====================================================
+### New human hierachical transcriptome assembly ###
+====================================================
+
+cell="diffTFB"
+#cell="hiPSC"
+#cell="primaryTFB"
+
+cd /work2/group/trofo-zika/humanTranscriptome_gencodev45/hierarchical_transcriptome/${cell}
+
+# Create symlinks for all gtf files from scallop
+
+for i in $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev45/${cell}/PRJNA*/scallop1st_final/*gtf); do ln -s $i; done
+
+# Import the genome files in fasta and gtf format
+
+ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
+ln -s /work2/group/trofo-zika/gencode/gencodeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
+
+# Create a txt file with scallop's outputs 
+
+ls SRR* > stranded_files.txt
+
+# Run taco_run
+
+taco_run \
+        -o tacoAssembly_gencodeV45 \
+        -p 32 \
+        --guided-assembly \
+        --guided-strand \
+        --guided-end \
+        --gtf-expr-attr RPKM \
+        --isoform-frac .25 \
+        --ref-genome-fasta GRCh38.primary_assembly.genome.fa \
+        --ref-gtf gencode.v45.primary_assembly.annotation.gtf \
+        --no-assemble-unstranded stranded_files.txt \
+        >& taco_run_stranded.log &&
+
+===================================================================
+### Formatting the new human hierachical transcriptome assembly ###
+===================================================================
 
 #!/bin/bash
 
-for i in $(ls ../primaryTFB/PRJNA*/scallop1st_robust/*gtf) $(ls ../diffTFB/PRJNA*/scallop1st_robust/*gtf) $(ls ../hiPSC/PRJNA*/scallop1st_robust/*gtf); do ln -s $i; done
+ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/scripts/script-parse-gtf-tsl.pl
+
+# First, organize transcripts and exons using the taco output bed file
+
+bedToGenePred assembly.bed /dev/stdout | genePredToGtf file /dev/stdin assembly_ordenado.gtf
+
+# Second, remove transcripts assigned to scaffolds and contigs from organized and unorganized files
+
+cut -f1 assembly_ordenado.gtf | sort -u | grep "KI.*\|GL.*" > listOUT.txt
+grep -f listOUT.txt -v assembly_ordenado.gtf > assembly_ordenado_v2.gtf
+
+### Import the transcriptome to R and proceed with the formatation
+
+
+
+
+
+
+
+
+
+
+
+
+
+========================================================
+### New human non_hierachical transcriptome assembly ###
+========================================================
+
+#!/bin/bash
+
+for i in $(ls ../primaryTFB/PRJNA*/scallop1st_final/*gtf) $(ls ../diffTFB/PRJNA*/scallop1st_final/*gtf) $(ls ../hiPSC/PRJNA*/scallop1st_final/*gtf); do ln -s $i; done
 
 ln -s /work2/group/trofo-zika/gencode/gencodeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
 ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
+
+ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/scripts/script-parse-gtf-tsl.pl
 
 ls SRR*gtf > stranded_files.txt
 
