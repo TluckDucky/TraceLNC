@@ -82,26 +82,162 @@ ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/scripts/script-parse
 
 # First, organize transcripts and exons using the taco output bed file
 
-bedToGenePred assembly.bed /dev/stdout | genePredToGtf file /dev/stdin assembly_ordenado.gtf
-
-# Second, remove transcripts assigned to scaffolds and contigs from organized and unorganized files
-
-cut -f1 assembly_ordenado.gtf | sort -u | grep "KI.*\|GL.*" > listOUT.txt
-grep -f listOUT.txt -v assembly_ordenado.gtf > assembly_ordenado_v2.gtf
+bedToGenePred assembly.bed /dev/stdout | genePredToGtf file /dev/stdin assembly_ordenado_v1.gtf
 
 ### Import the transcriptome to R and proceed with the formatation
 
+#!/usr/bin/env Rscript 
 
+library(readr) #read_tsv
+library(tibble) #add_column
+library(dplyr) #%>%
+library(tidyr) #separate
 
+####=====================================####
+## Formatação do transcriptoma hierarquico ##
+####=====================================####
 
+# Set working directory
 
+setwd("D:/rstudio/gencode45/hierachical")
 
+# Import the transcriptomes
 
+assembly_diff <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/hierarchical_transcriptome_Gv45/assembly_ordenado_v2_diffTFB.gtf", col_names = F)
+assembly_hipsc <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/hierarchical_transcriptome_Gv45/assembly_ordenado_v2_hiPSC.gtf", col_names = F)
+assembly_primary <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/hierarchical_transcriptome_Gv45/assembly_ordenado_v2_primaryTFB.gtf", col_names = F)
 
+# In case of "I messed up"
 
+assembly_diff_backup <- assembly_diff
+assembly_diff <- assembly_diff_backup
 
+assembly_hipsc_backup <- assembly_hipsc
+assembly_hipsc <- assembly_hipsc_backup
 
+assembly_primary_backup <- assembly_primary
+assembly_primary <- assembly_primary_backup
 
+# Print column names
+
+names(assembly_diff)
+
+# Format column 2
+
+assembly_diff$X2 <- "taco"
+assembly_hipsc$X2 <- "taco"
+assembly_primary$X2 <- "taco"
+
+# Format column 9
+
+assembly_diff$X9 <- ifelse(assembly_diff$X3 %in% 'exon', 
+                           gsub(' exon_number.*','',assembly_diff$X9),
+                           assembly_diff$X9)
+
+assembly_hipsc$X9 <- ifelse(assembly_hipsc$X3 %in% 'exon',
+                            gsub(' exon_number.*','',assembly_hipsc$X9),
+                            assembly_hipsc$X9)
+
+assembly_primary$X9 <- ifelse(assembly_primary$X3 %in% 'exon',
+                              gsub(' exon_number.*','',assembly_primary$X9),
+                              assembly_primary$X9)
+
+# Create two additional columns bearing col9 info
+
+assembly_diff <- assembly_diff %>%
+  add_column(X10 = ' transcript_id "',
+             X11 = assembly_diff$X9)
+
+assembly_hipsc <- assembly_hipsc %>%
+  add_column(X10 = ' transcript_id "',
+             X11 = assembly_hipsc$X9)
+
+assembly_primary <- assembly_primary %>%
+  add_column(X10 = ' transcript_id "',
+             X11 = assembly_primary$X9)
+
+# Clean col9
+
+assembly_diff$X9 <- gsub('TU.*',';',assembly_diff$X9)
+assembly_hipsc$X9 <- gsub('TU.*',';',assembly_hipsc$X9)
+assembly_primary$X9 <- gsub('TU.*',';',assembly_primary$X9)
+
+assembly_diff$X9 <- gsub('|','"',assembly_diff$X9, fixed = T)
+assembly_hipsc$X9 <- gsub('|','"',assembly_hipsc$X9, fixed = T)
+assembly_primary$X9 <- gsub('|','"',assembly_primary$X9, fixed = T)
+
+# Clean col 11
+
+assembly_diff$X11 <- sapply(strsplit(assembly_diff$X11,
+                                split = "(",
+                                fixed = T), `[[`, 1)
+
+assembly_hipsc$X11 <- sapply(strsplit(assembly_hipsc$X11,
+                                split = "(",
+                                fixed = T), `[[`, 1)
+
+assembly_primary$X11 <- sapply(strsplit(assembly_primary$X11,
+                                split = "(",
+                                fixed = T), `[[`, 1)
+
+assembly_diff$X11 <- gsub('.*TU','TU',assembly_diff$X11)
+assembly_hipsc$X11 <- gsub('.*TU','TU',assembly_hipsc$X11)
+assembly_primary$X11 <- gsub('.*TU','TU',assembly_primary$X11)
+
+# Concatenate the formatted info
+
+assembly_diff <- assembly_diff %>%
+  add_column(X12 = paste0(assembly_diff$X9,
+                          assembly_diff$X10,
+                          assembly_diff$X11,
+                          '";'))
+
+assembly_hipsc <- assembly_hipsc %>%
+  add_column(X12 = paste0(assembly_hipsc$X9,
+                          assembly_hipsc$X10,
+                          assembly_hipsc$X11,
+                          '";'))
+
+assembly_primary <- assembly_primary %>%
+  add_column(X12 = paste0(assembly_primary$X9,
+                          assembly_primary$X10,
+                          assembly_primary$X11,
+                          '";'))
+
+# Create new files for GffCompare annotation
+
+assembly_diff_v2 <- assembly_diff[,c(1:8,12)]
+assembly_hipsc_v2 <- assembly_hipsc[,c(1:8,12)]
+assembly_primary_v2 <- assembly_primary[,c(1:8,12)]
+
+colnames(assembly_diff_v2)[9] <- 'X9'
+colnames(assembly_hipsc_v2)[9] <- 'X9'
+colnames(assembly_primary_v2)[9] <- 'X9'
+
+# Write the files to import to verjo103 server
+
+write.table(assembly_diff_v2,
+            "assembly_ordenado_v3_diffTFB.gtf",
+            col.names = F,
+            row.names = F,
+            sep = "\t",
+            quote = F)
+
+write.table(assembly_hipsc_v2,
+            "assembly_ordenado_v3_hiPSC.gtf",
+            col.names = F,
+            row.names = F,
+            sep = "\t",
+            quote = F)
+
+write.table(assembly_primary_v2,
+            "assembly_ordenado_v3_primaryTFB.gtf",
+            col.names = F,
+            row.names = F,
+            sep = "\t",
+            quote = F)
+
+# Import the transcriptomes to bash to compare using GffCompare
 
 ========================================================
 ### New human non_hierachical transcriptome assembly ###
@@ -120,9 +256,9 @@ ls SRR*gtf > stranded_files.txt
 
 taco_run -o taco_stranded_final -p 32 --guided-assembly --guided-strand --guided-end --gtf-expr-attr RPKM --isoform-frac .25 --ref-genome-fasta GRCh38.primary_assembly.genome.fa --ref-gtf gencode.v45.primary_assembly.annotation.gtf --no-assemble-unstranded stranded_files.txt >& taco_run_stranded.log &
 
-===================================================
-### Format the new human transcriptome assembly ###
-===================================================
+=========================================================
+### Format the non_hierachical transcriptome assembly ###
+=========================================================
 
 #!/bin/bash
 
@@ -139,46 +275,44 @@ grep -f listOUT.txt -v assembly_ordenado.gtf > assembly_ordenado_v2_scallopRobus
 
 #!/usr/bin/env Rscript 
 
-library(readr) #read_tsv
-library(tibble) #add_column
-library(dplyr) #%>%
-library(tidyr) #separate
-
-# Import the transcriptome
-
-assembly <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/assembly_ordenado_v2_scallopRobust_isofrac025.gtf", col_names = F)
+assembly <- read_tsv("https://verjo103.butantan.gov.br/users/thalles_lopes/non_hierarchical_transcriptome_Gv45/assembly_ordenado.gtf", col_names = F)
 
 # In case of "I messed up"
 
 assembly_backup <- assembly
 assembly <- assembly_backup
 
-# Print column names
-
-names(assembly)
-
-# Format columns 2 and 9
+# Format column 2
 
 assembly$X2 <- "taco"
 
+# Format column 9
+
 assembly$X9 <- ifelse(assembly$X3 %in% 'exon', 
-                                  gsub(' exon_number.*','',assembly$X9),
-                      assembly$X9)
+                           gsub(' exon_number.*','',assembly$X9),
+                           assembly$X9)
+
+# Create two additional columns bearing col9 info
 
 assembly <- assembly %>%
-  add_column(X10 = assembly$X9,
+  add_column(X10 = ' transcript_id "',
              X11 = assembly$X9)
 
+# Clean col9
+
 assembly$X9 <- gsub('TU.*',';',assembly$X9)
+
 assembly$X9 <- gsub('|','"',assembly$X9, fixed = T)
 
-assembly$X10 <- gsub('.*transcript_id.*',' transcript_id "',assembly$X10)
+# Clean col 11
 
 assembly$X11 <- sapply(strsplit(assembly$X11,
-                                            split = "(",
-                                            fixed = T), `[[`, 1)
+                                     split = "(",
+                                     fixed = T), `[[`, 1)
 
 assembly$X11 <- gsub('.*TU','TU',assembly$X11)
+
+# Concatenate the formatted info
 
 assembly <- assembly %>%
   add_column(X12 = paste0(assembly$X9,
@@ -186,16 +320,22 @@ assembly <- assembly %>%
                           assembly$X11,
                           '";'))
 
+# Create new files for GffCompare annotation
+
 assembly_v2 <- assembly[,c(1:8,12)]
 
 colnames(assembly_v2)[9] <- 'X9'
 
+# Write the files to import to verjo103 server
+
 write.table(assembly_v2,
-            "assembly_ordenado_v3.gtf",
+            "assembly_ordenado_v2.gtf",
             col.names = F,
             row.names = F,
             sep = "\t",
             quote = F)
+
+# Import to bash to parse and proceed with parsing and annotation
 
 ===============================================
 ### Parse the file assembly_ordenado_v3.gtf ###
@@ -205,7 +345,7 @@ write.table(assembly_v2,
 
 ln -s ../../scripts/script-parse-gtf-tsl.pl
 
-perl script-parse-gtf-tsl.pl assembly.gtf  assembly_ordenado_v3.gtf > assembly_ordenado_v4.gtf
+perl script-parse-gtf-tsl.pl assembly.gtf  assembly_ordenado_v2.gtf > assembly_ordenado_v3.gtf
 
 ==========================================
 ### Format column 9 of the parsed file ###
@@ -213,13 +353,13 @@ perl script-parse-gtf-tsl.pl assembly.gtf  assembly_ordenado_v3.gtf > assembly_o
 
 #!/bin/bash
 
-awk -F "\t" '{ print $9 }' assembly_ordenado_v4.gtf | awk -F ";" '{ print $7,$6,$5,$1,$2,$3,$4 }' | sed 's/ //g; s/"/";/g; s/";G/ "G/g; s/";;/";/g; s/transcript_id/ transcript_id /g; s/";TU/"TU/g; s/expr";/ expr "/g; s/tss_id";/ tss_id "/g; s/locus_id";/ locus_id "/g; s/abs_frac";/ abs_frac "/g; s/rel_frac";/ rel_frac "/g' > col9_formatada_assembly_ordenado_v4.gtf
+awk -F "\t" '{ print $9 }' assembly_ordenado_v3.gtf | awk -F ";" '{ print $7,$6,$5,$1,$2,$3,$4 }' | sed 's/ //g; s/"/";/g; s/";G/ "G/g; s/";;/";/g; s/transcript_id/ transcript_id /g; s/";TU/"TU/g; s/expr";/ expr "/g; s/tss_id";/ tss_id "/g; s/locus_id";/ locus_id "/g; s/abs_frac";/ abs_frac "/g; s/rel_frac";/ rel_frac "/g' > col9_formatada_assembly_ordenado_v3.gtf
 
 # Select the first eight columns and paste with the new column 9, formatted above to build the gtf for further anotation and downstream analyses
 
-cut -f1,2,3,4,5,6,7,8 assembly_ordenado_v4.gtf > cols1-8_assembly_ordenado_v4.gtf
+cut -f1,2,3,4,5,6,7,8 assembly_ordenado_v3.gtf > cols1-8_assembly_ordenado_v3.gtf
 
-paste cols1-8_assembly_ordenado_v4.gtf col9_formatada_assembly_ordenado_v4.gtf > assembly_ordenado_v5.gtf
+paste cols1-8_assembly_ordenado_v3.gtf col9_formatada_assembly_ordenado_v3.gtf > assembly_ordenado_v4.gtf
 
 ====================================================================
 ### Comparison of assembled transcripts to reference transcripts ###
@@ -227,13 +367,36 @@ paste cols1-8_assembly_ordenado_v4.gtf col9_formatada_assembly_ordenado_v4.gtf >
 
 #!/bin/bash
 
-ln -s ../assembly_ordenado_v5.gtf
+cd /work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/
 
+mkdir gffcmp; cd gffcmp
+
+# Create symlinks for reference and query files
+
+ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/assembly_ordenado_v4.gtf
 ln -s /work2/group/trofo-zika/gencode/gencodeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
-
 ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
 
-gffcompare -r gencode.v45.primary_assembly.annotation.gtf -s GRCh38.primary_assembly.genome.fa -o gffcmp_gencodeV45 assembly_ordenado_v5.gtf >& gffcmp_gencodeV45.log &
+total=$(cut -f3 assembly_ordenado_v4.gtf | sort | uniq -c | grep "transcript" | sed 's/[[:space:]]//g; s/transcript//g')
+
+# Run the GffCompare algorithm
+
+gffcompare \
+        -r gencode.v45.primary_assembly.annotation.gtf \
+        -s GRCh38.primary_assembly.genome.fa \
+        -o gffcmp_Gv45_assembly_ordenado_v4\
+        assembly_ordenado_v4.gtf \
+        >& gffcmp_Gv45_assembly_ordenado_v4.log &
+
+# Wait for GffCompare completion
+
+wait
+
+# Check the amount of transcripts per GffCompare class
+
+echo "A quantidade total de transcritos nesse transcriptoma é ${total}, sendo estratificados nas seguintes classes:"
+
+cut -f4 gffcmp_Gv45_assembly_ordenado.tracking | sort | uniq -c
 
 ============================================================================
 ### Removal of transcripts of [=kmnesp] classes and monoexon transcripts ###
@@ -241,23 +404,25 @@ gffcompare -r gencode.v45.primary_assembly.annotation.gtf -s GRCh38.primary_asse
 
 #!/bin/bash
 
+cd /work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/gffcmp/
+
 # Select only transcripts of classes [jcoxiyu]
 
-awk -F "\t" '{ if ($4~/j|c|o|x|i|y/) print $0 }' gffcmp_gencodeV45.tracking > class_jcoxiy_assembly_v5.tracking
+awk -F "\t" '{ if ($4~/j|c|o|x|i|y/) print $0 }' gffcmp_Gv45_assembly_ordenado_v4.tracking > class_jcoxiy_assembly_ordenado_v4.tracking
 
-awk -F "\t" '{ if ($4~/u/) print $0}' gffcmp_gencodeV45.tracking > class_u_assembly_v5.tracking
+awk -F "\t" '{ if ($4~/u/) print $0}' gffcmp_Gv45_assembly_ordenado_v4.tracking > class_u_assembly_ordenado_v4.tracking
 
 # Remove monoexon transcripts
 
-awk -F "|" '{ if ($4 > 1) print $0 }' class_jcoxiy_assembly_v5.tracking > class_jcoxiy_assembly_v5_noMonoexon.tracking
+awk -F "|" '{ if ($4 > 1) print $0 }' class_jcoxiy_assembly_ordenado_v4.tracking > class_jcoxiy_assembly_ordenado_v4_noMonoexon.tracking
 
-awk -F "|" '{ if ($3 > 1) print $0 }' class_u_assembly_v5.tracking > class_u_assembly_v5_noMonoexon.tracking
+awk -F "|" '{ if ($3 > 1) print $0 }' class_u_assembly_ordenado_v4.tracking > class_u_assembly_ordenado_v4_noMonoexon.tracking
 
 # Select the IDs of these transcripts
 
-awk -F "|" '{ print $3 }' class_jcoxiy_assembly_v5_noMonoexon.tracking | sort -u > class_jcoxiy_assembly_v5_noMonoexon_IDs.txt
+awk -F "|" '{ print $3 }' class_jcoxiy_assembly_ordenado_v4_noMonoexon.tracking | sort -u > class_jcoxiy_assembly_ordenado_v4_noMonoexon_IDs.txt
 
-awk -F "|" '{ print $2 }' class_u_assembly_v5_noMonoexon.tracking | sort -u > class_u_assembly_v5_noMonoexon_IDs.txt
+awk -F "|" '{ print $2 }' class_u_assembly_ordenado_v4_noMonoexon.tracking | sort -u > class_u_assembly_ordenado_v4_noMonoexon_IDs.txt
 
 ### Import these IDs to R for further annotation of class [u] transcripts
 
