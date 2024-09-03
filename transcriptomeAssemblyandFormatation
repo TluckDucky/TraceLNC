@@ -69,8 +69,9 @@ taco_run \
         --isoform-frac .25 \
         --ref-genome-fasta GRCh38.primary_assembly.genome.fa \
         --ref-gtf gencode.v45.primary_assembly.annotation.gtf \
-        --no-assemble-unstranded stranded_files.txt \
-        >& taco_run_stranded.log &&
+        --no-assemble-unstranded \
+        stranded_files.txt \
+        >& taco_run_stranded.log &
 
 ===================================================================
 ### Formatting the new human hierachical transcriptome assembly ###
@@ -93,9 +94,9 @@ library(tibble) #add_column
 library(dplyr) #%>%
 library(tidyr) #separate
 
-####=====================================####
+=============================================
 ## Formatação do transcriptoma hierarquico ##
-####=====================================####
+=============================================
 
 # Set working directory
 
@@ -254,7 +255,19 @@ ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/scripts/script-parse
 
 ls SRR*gtf > stranded_files.txt
 
-taco_run -o taco_stranded_final -p 32 --guided-assembly --guided-strand --guided-end --gtf-expr-attr RPKM --isoform-frac .25 --ref-genome-fasta GRCh38.primary_assembly.genome.fa --ref-gtf gencode.v45.primary_assembly.annotation.gtf --no-assemble-unstranded stranded_files.txt >& taco_run_stranded.log &
+taco_run \
+        -o taco_stranded_final \
+        -p 32 \
+        --guided-assembly \
+        --guided-strand \
+        --guided-end \
+        --gtf-expr-attr RPKM \
+        --isoform-frac .25 \
+        --ref-genome-fasta GRCh38.primary_assembly.genome.fa \
+        --ref-gtf gencode.v45.primary_assembly.annotation.gtf \
+        --no-assemble-unstranded \
+        stranded_files.txt \
+        >& taco_run_stranded.log &
 
 =========================================================
 ### Format the non_hierachical transcriptome assembly ###
@@ -477,32 +490,65 @@ write.table(assembly_v5_onlyU_v2,
 ### Comparison of class [u] Gv45 transcripts with other databases ###
 =====================================================================
 
-#!/bin/bash
+# Run the GffCompare algorithm
 
+# For use:
+
+# david
+# hez_uli
+# sarro_kaess
+# noncodeV5
+
+cd /work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45
+
+annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/${1}/${1}_hg38_transcriptome.gtf"
 fasta="/work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa"
-annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/noncodeV5/NONCODEv5_human_hg38_lncRNA.gtf"
-query=assembly_v5_onlyU_v2.gtf
+query="/work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/assembly_v2_onlyU_v2.gtf"
 
-# Extrair o nome do arquivo da variável $annot
+# Extract the name of files
+
+query_filename=$(basename "$query")
 annot_filename=$(basename "$annot")
 
-# Remover a extensão do arquivo
+# Remove the extension of files
+
+query_name="${query_filename%.*}"
 annot_name="${annot_filename%.*}"
 
-gffcompare -r ${annot} -s ${fasta} -o gff_${annot_name}_${query} ${query} >& gff_${annot_name}_${query}.log &&
+# Create a directory according to each annotation file
 
-awk -F "\t" '{ if ($4~/u/) print $0 }' gff_${annot_name}_${query}.tracking | awk -F "|" '{ print $2 }' > class_u_${annot_name}_IDs.txt &&
+mkdir gffcmp_${annot_name}; cd gffcmp_${annot_name}
 
-echo "A quantidade de transcritos de cada classe é:"
-cut -f4 gff_${annot_name}_${query}.tracking | sort | uniq -c
+# Compute the total of query transcripts
 
-cp class_u_${annot_name}_IDs.txt /var/www/html/users/thalles_lopes
+total=$(cut -f3 ${query} | sort | uniq -c | grep "transcript" | sed 's/[[:space:]]//g; s/transcript//g')
 
-### Change annot accordingly to the reference of comparison
+# Run the GffCompare algorithm
 
-#annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/david/david_hg38.human.gtf"
-#annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/hezroni_uli/ulitsky_hg38.transcriptome.gtf"
-#annot="/work2/group/trofo-zika/humanTranscriptome_gencodev45/gffcompare/sarropoulos_kaess/kaessmann_hg38.transcriptome.gtf"
+gffcompare \
+        -r ${annot} \
+        -s ${fasta} \
+        -o gff_${query_name}_${annot_name} \
+        ${query} \
+        >& gff_${query_name}_${annot_name}.log &
+
+# Wait for GffCompare completion
+
+wait
+
+# Check the amount of transcripts per GffCompare class
+
+echo "A quantidade total de transcritos nesse transcriptoma é ${total}, sendo estratificados nas seguintes classes:"
+
+cut -f4 gff_${query_name}_${annot_name}.tracking | sort | uniq -c
+
+awk -F "\t" '{ if ($4~/u/) print $0 }' gff_${query_name}_${annot_name}.tracking | awk -F "|" '{ print $2}' | sort -u > classU_IDs_${query_name}_${annot_name}.txt
+
+# Copy the IDs list to var
+
+cp classU_IDs_${query_name}_${annot_name}.txt /var/www/html/users/thalles_lopes/non_hierarchical_transcriptome_Gv45
+
+# Uso: bash .sh nomeDoGtfDeComparacao
 
 =================================
 ### Coding potential analyses ###
@@ -514,20 +560,34 @@ vim feelnc_analysis.sh
 
 #!/bin/bash
 
+cd /work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/codingPotential/
+
+mkdir feelnc; cd feelnc
+
 ncTranscripts="/work2/group/trofo-zika/gencode/gencodeLncTranscripts/gencode.v45.lncRNA_transcripts.fa"
 pcTranscripts="/work2/group/trofo-zika/gencode/gencodePcTranscripts/gencode.v45.pc_transcripts.fa"
 fasta="/work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa"
-assembly="/work2/group/trofo-zika/humanTranscriptome_gencodev45/taco_gencodeV45_scallopRobust_isofrac025/taco_stranded_final/assembly_ordenado_v5.gtf"
+assembly="/work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/assembly_ordenado_v5.gtf"
 
 # Extrair o nome do arquivo da variável $assembly
+
 assembly_filename=$(basename "$assembly")
 
 # Remover a extensão do arquivo
+
 assembly_name="${assembly_filename%.*}"
 
-FEELnc_codpot.pl -i ${assembly} -a ${pcTranscripts} -g ${fasta} -l ${ncTranscripts} -n 5000,5000 >& feelnc_codpot_${assembly_name}.log &&
+FEELnc_codpot.pl \
+        -i ${assembly} \
+        -a ${pcTranscripts} \
+        -g ${fasta} \
+        -l ${ncTranscripts} \
+        -n 5000,5000 \
+        >& feelnc_codpot_${assembly_name}.log &
 
-cd feelnc_codpot_out/ &&
+wait
+
+cd feelnc_codpot_out/
 
 awk -F "\t" '{ if ($3~/transcript/) print $9}' ${assembly}.mRNA.gtf | awk -F ";" '{ print $2 }' | awk '{gsub("transcript_id ","",$0); print $0 }' | sed 's/\"//g' | sort -u > feel_pc_IDs.txt
 
@@ -537,20 +597,42 @@ awk -F "\t" '{ if ($3~/transcript/) print $9}' ${assembly}.noORF.gtf | awk -F ";
 
 cat feel_lnc_IDs.txt feel_noORF_IDs.txt | sort -u > feel_nc_IDs.txt
 
+cp feel_nc_IDs.txt /var/www/html/users/thalles_lopes/non_hierarchical_transcriptome_Gv45/
+
 ### CPC2
 
 vim cpc_analysis.sh
 
 #!/bin/bash
 
+cd /work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/codingPotential/
+
+mkdir cpc; cd cpc 
+
 ref="/work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa"
-query="/work2/group/trofo-zika/humanTranscriptome_gencodev45/taco_gencodeV45_scallopRobust_isofrac025/taco_stranded_final/assembly_ordenado_v5.gtf"
+query="/work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/assembly_ordenado_v5.gtf"
 
-gtf2bed --gtf ${query} --bed assembly_ordenado_v5.bed &&
+gtf2bed \
+        --gtf ${query} \
+        --bed assembly_ordenado_v5.bed &
 
-bedtools getfasta -fi ${ref} -fo assembly_ordenado_v5.fa -bed assembly_ordenado_v5.bed -name -split &&
+wait
 
-python3.6 $CPC2_HOME/bin/CPC2.py -i assembly_ordenado_v5.fa -o ./cpc2 >& cpc2.log &&
+bedtools \
+        getfasta \
+        -fi ${ref} \
+        -fo assembly_ordenado_v5.fa \
+        -bed assembly_ordenado_v5.bed \
+        -name \
+        -split &
+
+wait
+
+python3.6 $CPC2_HOME/bin/CPC2.py \
+        -i assembly_ordenado_v5.fa \
+        -o ./cpc2 >& cpc2.log &
+
+wait
 
 cut -f8 cpc2.txt | sort | uniq -c
 
@@ -558,22 +640,48 @@ awk -F "\t" '{ if ($8~/noncoding/) print $1 }' cpc2.txt | awk -F "::" '{ print $
 
 awk -F "\t" '{ if ($8~/^coding/) print $1 }' cpc2.txt | awk -F "::" '{ print $1 }' | sort -u > cpc_pc_IDs.txt
 
+cp cpc_pc_IDs.txt /var/www/html/users/thalles_lopes/non_hierarchical_transcriptome_Gv45/
+
 ### CPAT
 
 vim cpat_analysis.sh
 
 #!/bin/bash
 
+cd /work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/codingPotential/
+
+mkdir cpat; cd cpat 
+
 pcTranscripts="/work2/group/trofo-zika/gencode/gencodePcTranscripts/gencode.v45.pc_transcripts.fa"
 ncTranscripts="/work2/group/trofo-zika/gencode/gencodeLncTranscripts/gencode.v45.lncRNA_transcripts.fa"
 ref="/work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa"
-assembly="/work2/group/trofo-zika/humanTranscriptome_gencodev45/taco_gencodeV45_scallopRobust_isofrac025/taco_stranded_final/codingPotential/cpc2/assembly_ordenado_v5.fa"
+assembly="/work2/group/trofo-zika/humanTranscriptome_gencodev45/non_hierarchical_transcriptome/tacoAssembly_gencodeV45/codingPotential/cpc/assembly_ordenado_v5.fa"
 
-make_hexamer_tab.py -c ${pcTranscripts} -n ${ncTranscripts} > human_hexamer.tsv &&
+make_hexamer_tab.py \
+        -c ${pcTranscripts} \
+        -n ${ncTranscripts} \
+        > human_hexamer.tsv &
 
-make_logitModel.py -c ${pcTranscripts} -n ${ncTranscripts} -o logitModel_ -x human_hexamer.tsv &&
+wait
 
-cpat.py -r ${ref} -x human_hexamer.tsv --antisense -d logitModel_.logit.RData --top-orf=5 -g ${assembly} -o CPAT_codpot_ &&
+make_logitModel.py \
+        -c ${pcTranscripts} \
+        -n ${ncTranscripts} \
+        -o logitModel_ \
+        -x human_hexamer.tsv &
+
+wait
+
+cpat.py \
+        -r ${ref} \
+        -x human_hexamer.tsv \
+        --antisense \
+        -d logitModel_.logit.RData \
+        --top-orf=5 \
+        -g ${assembly} \
+        -o CPAT_codpot_ &
+
+wait
 
 awk '$10 < 0.364' CPAT_codpot_.ORF_prob.tsv > cpat_noncodingORFs.txt
 
@@ -585,7 +693,9 @@ awk -F "::" '{print $1}' CPAT_codpot_.no_ORF.txt | sort -u > cpat_IDs_noORFs.txt
 
 grep -Fxvf cpat_IDs_codingORFs.txt cpat_IDs_noncodingORFs.txt > cpat_putative_IDs_noncodingORFs.txt
 
-cat cpat_IDs_noORFs.txt cpat_putative_IDs_noncodingORFs.txt | sort -u > cpat_nc_IDs.txt                                                                                                     
+cat cpat_IDs_noORFs.txt cpat_putative_IDs_noncodingORFs.txt | sort -u > cpat_nc_IDs.txt
+
+### Import class [u] IDs of each comparison and ncIDs to R and proceed with annotation                                                                                               
 
 =================================
 ### Annotation of transcripts ###
