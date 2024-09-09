@@ -24,7 +24,7 @@ cd ../1st
 
 # Symlinks for trimmed fastq files
 
-for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
+for i in `ls /work2/group/trofo-zika/humanTranscriptome_gencodev46/diffTFB/PRJNA565997/fastp/trimmed*.fastq`; do ln -s $i; done
 
 # Extraction and storage of SRR IDs in fastqFiles.txt
 
@@ -34,7 +34,7 @@ cd ../2nd
 
 # Symlinks for trimmed fastq files
 
-for i in `ls ../../fastp/trimmed*.fastq`; do ln -s $i; done
+for i in `ls /work2/group/trofo-zika/humanTranscriptome_gencodev46/diffTFB/PRJNA565997/fastp/trimmed*.fastq`; do ln -s $i; done
 
 # Extraction and storage of SRR IDs in fastqFiles.txt
 
