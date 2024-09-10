@@ -49,7 +49,7 @@ clear; tree
 
 # 3. Execute the bash script #
 
-bash starFiles.sh
+bash starFiles.sh cell project
 
 # 4. 1st or 2nd directories - Variable required for mapping #
 
