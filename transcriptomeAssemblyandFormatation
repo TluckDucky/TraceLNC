@@ -11,14 +11,16 @@ myScallop1stscript () {
                 #mkdir ${bioProject}/scallop1st_robust/; \
                 #mkdir ${bioProject}/scallop1st_more_robust/; \
                 #mkdir ${bioProject}/scallop1st_super_robust/; \
-                mkdir ${bioProject}/scallop1st_final/; \
+                #mkdir ${bioProject}/scallop1st_final/; \
+                #mkdir ${bioProject}/scallop/; \
                 cd ${bioProject}/star/2nd/; \
                 dirBams=$(pwd); \
                 #cd ../../scallop1st/; \
                 #cd ../../scallop1st_robust/; \
                 #cd ../../scallop1st_more_robust/; \
                 #cd ../../scallop1st_super_robust/; \
-                cd ../../scallop1st_final/; \
+                #cd ../../scallop1st_final/; \
+                cd ../../scallop/; \
 
                 for i in `ls ${dirBams}/*Aligned.sortedByCoord.out.bam`; do ln -s $i; done; \
 
@@ -246,12 +248,14 @@ write.table(assembly_primary_v2,
 
 #!/bin/bash
 
-for i in $(ls ../primaryTFB/PRJNA*/scallop1st_final/*gtf) $(ls ../diffTFB/PRJNA*/scallop1st_final/*gtf) $(ls ../hiPSC/PRJNA*/scallop1st_final/*gtf); do ln -s $i; done
+for i in $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//primaryTFB/PRJNA*/scallop1st_final/*gtf) \
+        $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//diffTFB/PRJNA*/scallop1st_final/*gtf) \
+        $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//hiPSC/PRJNA*/scallop1st_final/*gtf); do ln -s $i; done
 
-ln -s /work2/group/trofo-zika/gencode/gencodeAnnotationGTF/gencode.v45.primary_assembly.annotation.gtf
-ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
+ln -s /work2/group/trofo-zika/gencodeV46/primaryAssemblyAnnotation/gencode.v46.primary_assembly.annotation.gtf
+ln -s /work2/group/trofo-zika/gencodeV46/primaryAssemblyFasta/GRCh38.primary_assembly.genome.fa
 
-ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev45/scripts/script-parse-gtf-tsl.pl
+ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev46/scripts/script-parse-gtf-tsl.pl
 
 ls SRR*gtf > stranded_files.txt
 
