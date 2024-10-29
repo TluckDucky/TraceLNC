@@ -30,6 +30,10 @@ myScallop1stscript () {
 ### New human hierachical transcriptome assembly ###
 ====================================================
 
+arquivo .sh
+
+#!/bin/bash
+
 cell="diffTFB"
 #cell="hiPSC"
 #cell="primaryTFB"
