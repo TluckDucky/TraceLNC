@@ -193,5 +193,5 @@ STARanalysesLineages () {
 for i in *Log.final.out; do
     file=$(basename "$i" | sed 's/Log.final.out//') # ou ajuste conforme necessário
     cat "$i" | grep -w ".*%" | sed -n '1p;5p;6p;9p;10p' | \
-    sed "s/[[:space:]]//g; s/Uniquely/%ofuniquely/; s/of/$file/g; s/|/\t/g; s/%SRR/SRR/g"
+    sed "s/[[:space:]]//g; s/Uniquely/%ofuniquely/; s/of/$file/g; s/|/\t/g"
 done
