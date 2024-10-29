@@ -187,3 +187,11 @@ STARanalysesLineages () {
     STAR --runMode alignReads --runThreadN 16 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --limitBAMsortRAM 50000000000 --outFileNamePrefix ${x}_STAR2ndPassMapping_ --outSAMtype BAM Unsorted SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --sjdbFileChrStartEnd ${x}_STAR1stPassMapping_SJ.out.tab --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR2passMapping.log
   done < $samplesList
 }
+
+# Barplot dos percentuais de mapeamento do STAR 1st e 2nd
+
+for i in *Log.final.out; do
+    file=$(basename "$i" | sed 's/Log.final.out//') # ou ajuste conforme necessário
+    cat "$i" | grep -w ".*%" | sed -n '1p;5p;6p;9p;10p' | \
+    sed "s/[[:space:]]//g; s/Uniquely/%ofuniquely/; s/of/$file/g; s/|/\t/g"
+done
