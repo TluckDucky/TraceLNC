@@ -27,3 +27,15 @@ while read x; do fasterq-dump ${x} -e 30 >& ${x}.log; done < SRAsamplesList.txt 
 
 #for i in `cat projects.txt`; do cd ${i}/fastqc; ln -s ../rawData/fastqFiles.txt; cd ../..; done
 #for i in `cat projects.txt`; do cd ${i}/fastqc; for i in `cat fastqFiles.txt`; do ln -s ../rawData/${i}; done; cd ../..; done
+
+# Check the Q30 percentages
+
+for i in $(ls | grep -w "PRJNA.*"); do
+    echo "$i"
+    cd "$i/fastp/"
+    for j in $(ls | grep -w "SRR.*log"); do
+        echo "$j"
+        grep "Q30" "$j"  
+    done
+    cd ../.. 
+done
