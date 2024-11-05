@@ -242,16 +242,28 @@ write.table(assembly_primary_v2,
 
 #!/bin/bash
 
-for i in $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//primaryTFB/PRJNA*/scallop1st_final/*gtf) \
-        $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//diffTFB/PRJNA*/scallop1st_final/*gtf) \
-        $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//hiPSC/PRJNA*/scallop1st_final/*gtf); do ln -s $i; done
+cd /work2/group/trofo-zika/humanTranscriptome_gencodev46/taco_non_hierarchical_500nt/
 
-ln -s /work2/group/trofo-zika/gencodeV46/primaryAssemblyAnnotation/gencode.v46.primary_assembly.annotation.gtf
+# Create symlinks for all gtf files from scallop
+
+for i in $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//primaryTFB/PRJNA*/scallop_500nt/*gtf) \
+        $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//diffTFB/PRJNA*/scallop_500nt/*gtf) \
+        $(ls /work2/group/trofo-zika/humanTranscriptome_gencodev46//hiPSC/PRJNA*/scallop_500nt/*gtf); do ln -s $i; done
+
+# Import the genome files in fasta and gtf format
+
 ln -s /work2/group/trofo-zika/gencodeV46/primaryAssemblyFasta/GRCh38.primary_assembly.genome.fa
+ln -s /work2/group/trofo-zika/gencodeV46/primaryAssemblyAnnotation/gencode.v46.primary_assembly.annotation.gtf
+
+# Import the script for transcriptome parsing
 
 ln -s /work2/group/trofo-zika/humanTranscriptome_gencodev46/scripts/script-parse-gtf-tsl.pl
 
+# Create a txt file with scallop's outputs
+
 ls SRR*gtf > stranded_files.txt
+
+# Run taco_run
 
 taco_run \
         -o taco_stranded_final \
@@ -261,8 +273,9 @@ taco_run \
         --guided-end \
         --gtf-expr-attr RPKM \
         --isoform-frac .25 \
+        --filter-min-length 500 \
         --ref-genome-fasta GRCh38.primary_assembly.genome.fa \
-        --ref-gtf gencode.v45.primary_assembly.annotation.gtf \
+        --ref-gtf gencode.v46.primary_assembly.annotation.gtf \
         --no-assemble-unstranded \
         stranded_files.txt \
         >& taco_run_stranded.log &
