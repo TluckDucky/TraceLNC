@@ -66,7 +66,7 @@ STARanalyses () {
   cd ../1st && ln -s $pathIndexes &&
   
   while read x; do 
-    STAR --runMode alignReads --runThreadN 24 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --limitBAMsortRAM 50000000000 --outFileNamePrefix ${x}_STAR1stPassMapping_ --outSAMtype BAM Unsorted SortedByCoordinate --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR1passMapping.log
+    STAR --runMode alignReads --runThreadN 24 --genomeDir indexes --readFilesIn trimmed_${x}_1.fastq trimmed_${x}_2.fastq --outFileNamePrefix ${x}_STAR1stPassMapping_ --outSAMtype BAM Unsorted --outFilterType BySJout --outFilterMultimapNmax 20 --outFilterMismatchNoverReadLmax 0.04 --alignIntronMin 20 --alignIntronMax 1000000 --alignMatesGapMax 1000000 --alignSJoverhangMin 8 --alignSJDBoverhangMin 1 --quantMode TranscriptomeSAM --quantTranscriptomeBAMcompression 10 >& ${x}_STAR1passMapping.log
   done < $samplesList &&
 
   path1st=$(pwd)
