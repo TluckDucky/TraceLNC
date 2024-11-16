@@ -7,10 +7,10 @@
 myScallop1stscript () {
         for project in `ls | grep -w "PRJNA[0-9]*"`; do \
                 bioProject=${project}; \
-                mkdir ${bioProject}/scallop_500nt/; \
-                cd ${bioProject}/star/2nd/; \
+                mkdir ${bioProject}/scallop_500nt_Gv47/; \
+                cd ${bioProject}/star_500nt_Gv47/2nd/; \
                 dirBams=$(pwd); \
-                cd ../../scallop_500nt/; \
+                cd ../../scallop_500nt_Gv47/; \
 
                 for i in `ls ${dirBams}/*Aligned.sortedByCoord.out.bam`; do ln -s $i; done; \
 
