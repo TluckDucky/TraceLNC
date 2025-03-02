@@ -1,23 +1,36 @@
-================================
+#================================#
 ### Mapping Quality Analyses ###
-================================
+#================================#
+
+#chmod +x
 
 #!/bin/bash
+
+for i in `ls /work2/group/trofo-zika/humanTranscriptome_gencodev46/hiPSC/PRJNA767419/star_500nt_Gv47/2nd/*Aligned.sortedByCoord.out.bam`; do ln -s $i; done
 
 ## 1. samtools ##
 for i in `ls *Aligned.sortedByCoord.out.bam`; do echo "samtools index ${i} ${i}.bai" >> samIndex.sh; done
 
 # Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
+
 parallel -j n < samIndex.sh >& samIndex.log &
 
 ## 2. tin.py ##
-for i in `ls *Aligned.sortedByCoord.out.bam`; do echo "tin.py -i $x -r gencode.v45.primary_assembly.annotation.bed >& ${x}_tinAnalysis.log" >> tin.sh; done
+for i in `ls /work2/group/trofo-zika/humanTranscriptome_gencodev46/hiPSC/PRJNA767419/samtools_index_500nt_Gv47/*bai`; do ln -s $i; done
+ln -s /work2/group/trofo-zika/gencode47/gencode.v47.primary_assembly.annotation.bed
+
+for i in `ls *Aligned.sortedByCoord.out.bam`; do echo "tin.py -i ${i} -r gencode.v47.primary_assembly.annotation.bed >& ${i}_tinAnalysis.log" >> tin.sh; done
 
 # Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
+
 parallel -j n < tin.sh >& tin.log &
 
 ## 3 geneBody_coverage.py ##
-for i in `ls *Aligned.sortedByCoord.out.bam`; do echo "geneBody_coverage.py -i $i -r gencode.v45.primary_assembly.annotation.bed -o ${i}_gbc >& ${i}_gbc.log" >> geneBody_coverage.sh; done
+for i in `ls /work2/group/trofo-zika/humanTranscriptome_gencodev46/hiPSC/PRJNA767419/samtools_index_500nt_Gv47/*bai`; do ln -s $i; done
+for i in `ls /work2/group/trofo-zika/humanTranscriptome_gencodev46/hiPSC/PRJNA767419/star_500nt_Gv47/2nd/*Aligned.sortedByCoord.out.bam`; do ln -s $i; done
+ln -s /work2/group/trofo-zika/gencode47/gencode.v47.primary_assembly.annotation.bed
+
+for i in `ls *Aligned.sortedByCoord.out.bam`; do echo "geneBody_coverage.py -i ${i} -r gencode.v47.primary_assembly.annotation.bed -o ${i}_gbc >& ${i}_gbc.log" >> geneBody_coverage.sh; done
 
 # Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
 parallel -j n < geneBody_coverage.sh >& geneBody_coverage.log &
