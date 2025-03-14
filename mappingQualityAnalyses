@@ -28,6 +28,10 @@ for i in `ls *Aligned.sortedByCoord.out.bam`; do echo "tin.py -i ${i} -r gencode
 
 parallel -j n < tin.sh >& tin.log &
 
+for i in `ls | grep -w "PRJNA[0-9]*" | sort -u`; do cat ${i}/tin/*summary.txt > ${i}_hipsc_tin.txt; done
+
+cp
+
 ## 3 geneBody_coverage.py ##
 
 for i in `ls /work2/group/trofo-zika/humanTranscriptome_gencodev46/hiPSC/PRJNA767419/samtools_index_500nt_Gv47/*bai`; do ln -s $i; done
@@ -39,6 +43,10 @@ for i in `ls *Aligned.sortedByCoord.out.bam`; do echo "geneBody_coverage.py -i $
 # Execute the code bellow in parallel (chage n to the number of samIndex.sh lines)
 
 parallel -j n < geneBody_coverage.sh >& geneBody_coverage.log &
+
+for i in `ls | grep -w "PRJNA[0-9]*" | sort -u`; do cat ${i}/gbc/*geneBodyCoverage.txt > ${i}_hipsc_gbc.txt; done
+
+cp 
 
 ## 4 infer_experiment.py ##
 
