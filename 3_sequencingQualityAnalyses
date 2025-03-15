@@ -17,9 +17,7 @@ while read project; do
 
         for i in `cat fastqFiles.txt`; do ln -s ../rawData/${i}; done
 
-        while read SRA; do
-                echo "fastqc ${SRA} -t 32 -o ."
-        done < fastqFiles.txt > fastqFiles_fastqc.sh
+        while read x; do echo "fastqc ${x} -t 96 -o ."; done < fastqFiles.txt > fastqFiles_fastqc.sh
 
         jobs=$(wc -l < fastqFiles_fastqc.sh)
         parallel -j ${jobs} < fastqFiles_fastqc.sh >& fastqFiles_fastqc.log &
