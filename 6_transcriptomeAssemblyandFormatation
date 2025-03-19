@@ -377,11 +377,11 @@ perl script-parse-gtf-tsl.pl assembly.gtf  assembly_ordenado_v2.gtf > assembly_o
 
 #!/bin/bash
 
-awk -F "\t" '{ print $9 }' assembly_ordenado_v3.gtf | awk -F ";" '{ print $7,$6,$5,$1,$2,$3,$4 }' | sed 's/ //g; s/"/";/g; s/";G/ "G/g; s/";;/";/g; s/transcript_id/ transcript_id /g; s/";TU/"TU/g; s/exon_number";/"; exon_number ";/g; s/exon_id/ exon_id/g; s/expr";/ expr "/g; s/tss_id";/ tss_id "/g; s/locus_id";/ locus_id "/g; s/abs_frac";/ abs_frac "/g; s/rel_frac";/ rel_frac "/g' > col9_formatada_assembly_ordenado_v3.gtf
+awk -F "\t" '{ print $9 }' assembly_ordenado_v4.gtf | awk -F ";" '{ print $7,$6,$5,$1,$2,$3,$4 }' | sed 's/ //g; s/"/";/g; s/";G/ "G/g; s/";;/";/g; s/transcript_id/ transcript_id /g; s/";TU/"TU/g; s/exon_number";/"; exon_number ";/g; s/exon_id/ exon_id/g; s/expr";/ expr "/g; s/tss_id";/ tss_id "/g; s/locus_id";/ locus_id "/g; s/abs_frac";/ abs_frac "/g; s/rel_frac";/ rel_frac "/g' > col9_formatada_assembly_ordenado_v4.gtf
 
 # Select the first eight columns and paste with the new column 9, formatted above to build the gtf for further anotation and downstream analyses
 
-cut -f1,2,3,4,5,6,7,8 assembly_ordenado_v3.gtf > cols1-8_assembly_ordenado_v3.gtf
+cut -f1,2,3,4,5,6,7,8 assembly_ordenado_v4.gtf > cols1-8_assembly_ordenado_v4.gtf
 
 paste cols1-8_assembly_ordenado_v3.gtf col9_formatada_assembly_ordenado_v3.gtf > assembly_ordenado_v4.gtf
 
