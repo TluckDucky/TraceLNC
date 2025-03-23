@@ -60,6 +60,9 @@ cd 1st; samplesList=fastqFiles.txt; cd ../2nd; samplesList=fastqFiles.txt; cd ..
 # 5. tmux session - Create the following function #
 
 STARanalysesAtt () {
+
+  ulimit -n 500000
+
   STAR --runMode genomeGenerate --runThreadN 64 --genomeDir . --genomeFastaFiles GRCh38.primary_assembly.genome.fa --sjdbGTFfile gencode.v47.primary_assembly.annotation.gtf --sjdbOverhang $overHang >& STARindices_$project.log 2> STARindices_$project.err &&
   
   pathIndexes=$(pwd)
