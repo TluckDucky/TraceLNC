@@ -16,8 +16,6 @@ vim starFiles.sh
 cell=$1
 project=$2
 
-cd /work2/group/trofo-zika/humanTranscriptome_gencodev46/${cell}/${project}/star_500nt_Gv47/indexes
-
 # Files required for index generation (indexes directory)
 
 ln -s /work2/group/trofo-zika/gencode/gencodeFA/GRCh38.primary_assembly.genome.fa
