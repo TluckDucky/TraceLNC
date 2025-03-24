@@ -266,19 +266,19 @@ ls SRR*gtf > stranded_files.txt
 # Run taco_run
 
 taco_run \
-        -o taco_stranded_final \
+        -o taco_stranded_final_TPM \
         -p 96 \
         --guided-assembly \
         --guided-strand \
         --guided-end \
-        --gtf-expr-attr RPKM \
+        --gtf-expr-attr TPM \
         --isoform-frac .25 \
         --filter-min-length 500 \
         --ref-genome-fasta GRCh38.primary_assembly.genome.fa \
         --ref-gtf gencode.v47.primary_assembly.annotation.gtf \
         --no-assemble-unstranded \
         stranded_files.txt \
-        >& taco_run_stranded.log &
+        >& taco_run_stranded_TPM.log &
 
 =========================================================
 ### Format the non_hierachical transcriptome assembly ###
