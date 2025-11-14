@@ -76,6 +76,12 @@ It is recommended to build one superdirectory for each PRJNA Project, bearing di
 ### License
 * [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
 
+### List of Contributors - Listed Alphabetically:
+* Ana Carolina Tahira
+* Caio Felipe Freire de Sousa
+* Sergio Verjovski-Almeida
+* Thalles Souza-Lopes
+
 ### Comments and Suggestions?
 All comments and suggestions are appreciated. Please, submit them to [thalleslopes.github@gmail.com](thalleslopes.github@gmail.com).
 
