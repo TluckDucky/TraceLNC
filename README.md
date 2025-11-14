@@ -15,7 +15,7 @@ This document provides a description of a pipeline to assemble a new human trans
 * [Details](#Details)
 * [Citation](#Citation)
 * [License](#License)
-* [Contributors](#List) 
+* [Contributors](#Contributors) 
 * [Developer](https://github.com/TluckDucky)
 
 ### Introduction
