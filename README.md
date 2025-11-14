@@ -13,9 +13,9 @@ This document provides a description of a pipeline to assemble a new human trans
 # Summary  
 * [Introduction](#Introduction)
 * [Details](#Details)
+* [Contributors](#Contributors)
 * [Citation](#Citation)
 * [License](#License)
-* [Contributors](#Contributors) 
 * [Developer](https://github.com/TluckDucky)
 
 ### Introduction
@@ -75,15 +75,16 @@ Very good mapping rate | superior to 90%. <br/><br/>
 To run the RSeQC modules tin.py and geneBody_coverage.py you will need to index the sorted bam files from the 2nd mapping beforehand. To do so you may use the index command of samtools. The bai files are not declared in the code but they must be stored in the directory for a succesfull run of these modules. <br/><br/>
 It is recommended to build one superdirectory for each PRJNA Project, bearing directories for each analyses and using symbolic links to needed files (star/index; star/1stMapping and star/2ndMapping).
 
-### Citation
-Please, when using this pipeline, cite as Souza-Lopes et al., 2025 | DOI: .
-
 ### Contributors
 In alphabetical order:
 * Ana Carolina Tahira
 * Caio Felipe Freire de Sousa
 * Sergio Verjovski-Almeida
 * Thalles Souza-Lopes
+
+### Citation
+Please, when using this pipeline use the following reference:
+Souza-Lopes et al., 2025 | DOI: .
 
 ### License
 * [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
