@@ -13,6 +13,7 @@ This document provides a description of a pipeline to assemble a new human trans
 # Summary  
 * [Introduction](#Introduction)
 * [Details](#Details)
+* [Citation](#Citation).
 * [Developer](https://github.com/TluckDucky)
 * [License](#License)
 
@@ -74,7 +75,7 @@ To run the RSeQC modules tin.py and geneBody_coverage.py you will need to index 
 It is recommended to build one superdirectory for each PRJNA Project, bearing directories for each analyses and using symbolic links to needed files (star/index; star/1stMapping and star/2ndMapping).
 
 ### Citation
-Please, when using this pipeline, cite the work of Souza-Lopes et al., 2025 | DOI: .
+Please, when using this pipeline, cite as Souza-Lopes et al., 2025 | DOI: .
 
 ### List of Contributors - Listed Alphabetically:
 * Ana Carolina Tahira
