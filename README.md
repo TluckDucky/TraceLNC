@@ -15,7 +15,7 @@ This document provides a description of a pipeline to assemble a new human trans
 * [Details](#Details)
 * [Citation](#Citation)
 * [License](#License)
-* [Contributors](#List of Contributors - Alphabetical Order:) 
+* [Contributors](#List) 
 * [Developer](https://github.com/TluckDucky)
 
 ### Introduction
@@ -78,7 +78,8 @@ It is recommended to build one superdirectory for each PRJNA Project, bearing di
 ### Citation
 Please, when using this pipeline, cite as Souza-Lopes et al., 2025 | DOI: .
 
-### List of Contributors - Alphabetical Order:
+### Contributors
+In alphabetical order:
 * Ana Carolina Tahira
 * Caio Felipe Freire de Sousa
 * Sergio Verjovski-Almeida
