@@ -73,14 +73,17 @@ Very good mapping rate | superior to 90%. <br/><br/>
 To run the RSeQC modules tin.py and geneBody_coverage.py you will need to index the sorted bam files from the 2nd mapping beforehand. To do so you may use the index command of samtools. The bai files are not declared in the code but they must be stored in the directory for a succesfull run of these modules. <br/><br/>
 It is recommended to build one superdirectory for each PRJNA Project, bearing directories for each analyses and using symbolic links to needed files (star/index; star/1stMapping and star/2ndMapping).
 
-### License
-* [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
+### Citation
+Please, when using this pipeline, cite the work of Souza-Lopes et al., 2025 | DOI: .
 
 ### List of Contributors - Listed Alphabetically:
 * Ana Carolina Tahira
 * Caio Felipe Freire de Sousa
 * Sergio Verjovski-Almeida
 * Thalles Souza-Lopes
+
+### License
+* [GNU General Public License v3.0](https://github.com/TluckDucky/bash/blob/main/LICENSE)
 
 ### Comments and Suggestions?
 All comments and suggestions are appreciated. Please, submit them to [thalleslopes.github@gmail.com](thalleslopes.github@gmail.com).
