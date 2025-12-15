@@ -1,4 +1,4 @@
-<img width="2835" height="2348" alt="traceLNC" src="https://github.com/user-attachments/assets/d42fe98d-bc0b-46c7-aaa9-2fb5eb5a5f06" />
+<img width="283" height="234" alt="traceLNC" src="https://github.com/user-attachments/assets/d42fe98d-bc0b-46c7-aaa9-2fb5eb5a5f06" />
 <h1 align="center"> TraceLNC - Pipeline for human Transcriptome Assembly and Core Evaluation of novel lncRNAs </h1>
 
 ## Description:
