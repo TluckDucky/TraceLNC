@@ -1,4 +1,4 @@
-<img align="center" width="1477" height="1178" alt="traceLNC_3" src="https://github.com/user-attachments/assets/8efa9c91-22d4-477b-b30f-7d933a1022d9" />
+<img align="center" width="877" height="578" alt="traceLNC_3" src="https://github.com/user-attachments/assets/8efa9c91-22d4-477b-b30f-7d933a1022d9" />
 
 ## Description:
 This document provides a description of a pipeline to assemble a new human transcriptome, to annotate novel lncRNAs and to perform further downstream analyses. The "Core Evaluation of novel lncRNAs" is related to the part of the pipeline that transforms the identification of an RNA sequence into functional and biological knowledge.
