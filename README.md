@@ -1,4 +1,4 @@
-<h1 align="center"> TracerLNC - Pipeline for human Transcriptome Assembly and Core Evaluation of novel lncRNAs </h1>
+<h1 align="center"> TraceLNC - Pipeline for human Transcriptome Assembly and Core Evaluation of novel lncRNAs </h1>
 
 ## Description:
 This document provides a description of a pipeline to assemble a new human transcriptome, to annotate novel lncRNAs and to perform further downstream analyses. The "Core Evaluation of novel lncRNAs" is related to the part of the pipeline that transforms the identification of an RNA sequence into functional and biological knowledge.
