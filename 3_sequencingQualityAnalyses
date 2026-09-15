@@ -1,3 +1,5 @@
+#!/bin/bash
+
 =====================================================================
 ### Sequencing quality analyses using FastQC and Fastp algorithms ###
 =====================================================================
@@ -5,8 +7,6 @@
 ## 1. FastQC of raw reads ##
 
 vim fastqFiles_fastqc.sh
-
-#!/bin/bash
 
 while read project; do
         cd ${project}/rawData
