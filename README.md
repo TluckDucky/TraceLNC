@@ -5,7 +5,7 @@ This documentation provides a description of a pipeline to assemble a new human 
 
 <p align="center">
 <img loading="lazy" src="http://img.shields.io/static/v1?label=status&message=developing&color=blue"/>
-<img loading="lazy" src="https://img.shields.io/static/v1?label=updated&message=november2025&color=GREEN"/>
+<img loading="lazy" src="https://img.shields.io/static/v1?label=updated&message=september2026&color=GREEN"/>
 <img loading="lazy" src="https://img.shields.io/static/v1?label=language&message=bash&color=red"/>
 <img loading="lazy" src="https://img.shields.io/static/v1?label=language&message=R&color=yellow"/>
 </p>
