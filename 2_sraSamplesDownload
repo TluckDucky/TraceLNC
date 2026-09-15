@@ -1,8 +1,8 @@
+#!/bin/bash
+
 ==================================
 ### Raw RNA-Seq reads download ###
 ==================================
-
-#!/bin/bash
 
 ## 1. Create directories for each SRA project and run the following
 
