@@ -10,6 +10,14 @@ This documentation provides a description of a pipeline to assemble a new human 
 <img loading="lazy" src="https://img.shields.io/static/v1?label=language&message=R&color=yellow"/>
 </p>
 
+# Step 1 of the pipeline - Assembly of the first version of the new human transcriptome (hiPSC and TB)
+
+<img width="1920" height="1080" alt="pipeline_1" src="https://github.com/user-attachments/assets/4852bf24-05bf-4410-92e3-8f2236f970e4" />
+
+
+
+
+
 # Summary  
 * [Introduction](#Introduction)
 * [Details](#Details)
