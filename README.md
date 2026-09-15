@@ -12,6 +12,7 @@ This documentation provides a description of a pipeline to assemble a new human 
 
 # Pipeline Steps
 ## [STEP 1] Assembly of the first version of the new human hiPSC-TB transcriptome
+[Design sem nome.pdf](https://github.com/user-attachments/files/32247145/Design.sem.nome.pdf)
 
 
 ## [STEP 2] Annotation of the first version of the new human hiPSC-TB transcriptome to obtain the final version
