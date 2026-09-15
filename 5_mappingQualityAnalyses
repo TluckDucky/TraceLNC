@@ -1,10 +1,10 @@
+#!/bin/bash
+
 #================================#
 ### Mapping Quality Analyses ###
 #================================#
 
 #chmod +x
-
-#!/bin/bash
 
 for i in `ls /work2/group/trofo-zika/humanTranscriptome_gencodev46/hiPSC/PRJNA767419/star_500nt_Gv47/2nd/*Aligned.sortedByCoord.out.bam`; do ln -s $i; done
 
