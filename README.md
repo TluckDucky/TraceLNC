@@ -10,14 +10,14 @@ This documentation provides a description of a pipeline to assemble a new human 
 <img loading="lazy" src="https://img.shields.io/static/v1?label=language&message=R&color=yellow"/>
 </p>
 
-# Pipeline Step 1
-## Assembly of the first version of the new human hiPSC-TB transcriptome
+# Pipeline Steps
+## [STEP 1] Assembly of the first version of the new human hiPSC-TB transcriptome
 
 
-## Annotation of the first version of the new human hiPSC-TB transcriptome to obtain the final version
+## [STEP 2] Annotation of the first version of the new human hiPSC-TB transcriptome to obtain the final version
 
 
-## Downstream analyses using the final version of the new human hiPSC-TB transcriptome
+## [STEP 3] Downstream analyses using the final version of the new human hiPSC-TB transcriptome
 
 
 # Summary  
