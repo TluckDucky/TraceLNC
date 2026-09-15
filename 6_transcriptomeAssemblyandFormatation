@@ -30,7 +30,7 @@ myScallop1stscript () {
 ### New human hierachical transcriptome assembly ###
 ====================================================
 
-arquivo .sh
+file .sh
 
 #!/bin/bash
 
