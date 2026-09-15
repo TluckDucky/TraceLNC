@@ -20,8 +20,6 @@ This documentation provides a description of a pipeline to assemble a new human 
 ## [STEP 3] Downstream analyses using the final version of the new human hiPSC-TB transcriptome
 <img width="794" height="1123" alt="pipeline_3" src="https://github.com/user-attachments/assets/922157ea-5dd9-49c2-9f64-54a9878f5932" />
 
-<img width="794" height="1123" alt="GenePredToGtf" src="https://github.com/user-attachments/assets/4e242719-5d6f-40fe-bc6b-de005a15fbdc" />
-
 # Summary  
 * [Introduction](#Introduction)
 * [Details](#Details)
