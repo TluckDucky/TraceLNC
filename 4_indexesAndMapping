@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ======================================================
 ### STAR mapping using the reference transcriptome ###
 ======================================================
@@ -10,8 +12,6 @@ project=(insert here the PRJNA accession number)
 # 2. Indexes directory #
 
 vim starFiles.sh
-
-#!/bin/bash
 
 cell=$1
 project=$2
