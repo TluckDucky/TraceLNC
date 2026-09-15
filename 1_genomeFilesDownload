@@ -1,8 +1,8 @@
+#!/bin/bash
+
 ===================================
 ### Human genome files download ###
 ===================================
-
-#!/bin/bash
 
 ## 1. Decompress downloaded files in each respective directory ##
 
