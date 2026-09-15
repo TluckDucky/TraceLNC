@@ -12,12 +12,13 @@ This documentation provides a description of a pipeline to assemble a new human 
 
 # Pipeline Steps
 ## [STEP 1] Assembly of the first version of the new human hiPSC-TB transcriptome
-<img width="794" height="1123" alt="pipeline_1" src="https://github.com/user-attachments/assets/cbe69961-e340-499b-8858-a903834c8ee7" />
-## [STEP 2] Annotation of the first version of the new human hiPSC-TB transcriptome to obtain the final version
+<img width="794" height="1123" alt="pipeline_1" src="https://github.com/user-attachments/assets/e37e9dd8-0e3b-4712-9633-c2861cc26537" />
 
+## [STEP 2] Annotation of the first version of the new human hiPSC-TB transcriptome to obtain the final version
+<img width="794" height="1123" alt="pipeline_2" src="https://github.com/user-attachments/assets/4dfd5c14-9081-4460-b723-c3e2fe0538cd" />
 
 ## [STEP 3] Downstream analyses using the final version of the new human hiPSC-TB transcriptome
-
+<img width="794" height="1123" alt="pipeline_3" src="https://github.com/user-attachments/assets/922157ea-5dd9-49c2-9f64-54a9878f5932" />
 
 # Summary  
 * [Introduction](#Introduction)
