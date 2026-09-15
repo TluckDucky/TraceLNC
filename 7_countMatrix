@@ -1,35 +1,35 @@
 #!/usr/bin/env Rscript
 
-# No bash - chmod +x featureCounts_R.R e ./featureCounts_R.R
+# In Bash - chmod +x featureCounts_R.R e ./featureCounts_R.R
 
 library(Rsubread)
 
-# Armazenar os arquivos bam em um vetor para usar no codigo:
-bamFiles <- list.files(path = "/work2/group/trofo-zika/humanTranscriptome_gencodev46/taco_non_hierarchical_500nt_Gv47/taco_stranded_final/star/2nd", pattern = "SRR.*Aligned.sortedByCoord.out.bam", full.names = T)
+# Store the BAM files in a vector for use in the code:
+bamFiles <- list.files(path = ".../star/2nd", pattern = "SRR.*Aligned.sortedByCoord.out.bam", full.names = T)
 
-# Executar o featureCounts
-fcResults_finalConsensusHumanTranscriptomeV47 <- featureCounts(
-                                                               bamFiles,
-                                                               annot.ext = "/work2/group/trofo-zika/humanTranscriptome_gencodev46/taco_non_hierarchical_500nt_Gv47/taco_stranded_final/hiPSC-TFB_transcriptome.gtf",
-                                                               isGTFAnnotationFile = T,
-                                                               GTF.featureType = "exon",
-                                                               GTF.attrType = "gene_id",
-                                                               strandSpecific = 2,
-                                                               countReadPairs = T,
-                                                               isPairedEnd = T,
-                                                               requireBothEndsMapped = T,
-                                                               countMultiMappingReads = F,
-                                                               countChimericFragments = F,
-                                                               nthreads = 32
-                                                               )
+# Execute featureCounts
+fcResults_out <- featureCounts(
+                            bamFiles,
+                            annot.ext = "/transcriptome.gtf",
+                            isGTFAnnotationFile = T,
+                            GTF.featureType = "exon",
+                            GTF.attrType = "gene_id",
+                            strandSpecific = 2,
+                            countReadPairs = T,
+                            isPairedEnd = T,
+                            requireBothEndsMapped = T,
+                            countMultiMappingReads = F,
+                            countChimericFragments = F,
+                            nthreads = 32
+                            )
 
-# Extrair a matriz de contagens
-fc_countMatrix_finalConsensusHumanTranscriptomeV47 <- data.frame(fcResults_finalConsensusHumanTranscriptomeV47[["counts"]])
+# Extract the count matrix
+fc_countMatrix <- data.frame(fcResults_out[["counts"]])
 
-# Formatar os nomes das colunas (manter somente SRR[0-9]*)
-names(fc_countMatrix_finalConsensusHumanTranscriptomeV47) <- sapply(strsplit(names(fc_countMatrix_finalConsensusHumanTranscriptomeV47), split = "_"), `[[`, 1)
+# Format column names (keep only SRR[0-9]*)
+names(fc_countMatrix) <- sapply(strsplit(names(fc_countMatrix), split = "_"), `[[`, 1)
 
-# Exportar a matriz de contagens
-write.csv(fc_countMatrix_finalConsensusHumanTranscriptomeV47,"fc_countMatrix_finalConsensusHumanTranscriptomeV47.txt",col.names=T, row.names=T,quote=F,sep=",")
+# Export the count matrix
+write.csv(fc_countMatrix,"fc_countMatrix.txt",col.names=T, row.names=T,quote=F,sep=",")
 
 save.image()
