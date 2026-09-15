@@ -1,8 +1,8 @@
+#!/bin/bash
+
 ============================
 ### Transcripts assembly ###
 ============================
-
-#!/bin/bash
 
 myScallop1stscript () {
         for project in `ls | grep -w "PRJNA[0-9]*"`; do \
