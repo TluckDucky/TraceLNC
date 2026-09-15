@@ -3,6 +3,8 @@
 ## Description:
 This documentation provides a description of a pipeline to assemble a new human transcriptome, to annotate novel lncRNAs and to perform further downstream analyses. The "Core Evaluation of lncRNAs" is related to the part of the pipeline that transforms the identification of an RNA sequence into functional and biological knowledge.
 
+This pipeline was initially developed to identify novel human lncRNAs and perform subsequent analyses; however, with adaptation, it can be used for various bulk RNA-Seq data analysis applications.
+
 <p align="center">
 <img loading="lazy" src="http://img.shields.io/static/v1?label=status&message=developing&color=blue"/>
 <img loading="lazy" src="https://img.shields.io/static/v1?label=updated&message=september2026&color=GREEN"/>
